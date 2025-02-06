@@ -1,4 +1,5 @@
 import * as React from "react"
+import { config as _c, Block, app } from 'xadmin'
 import {
   AudioWaveform,
   BookOpen,
@@ -6,6 +7,7 @@ import {
   Command,
   Frame,
   GalleryVerticalEnd,
+  LucideIcon,
   Map,
   PieChart,
   Settings2,
@@ -18,6 +20,9 @@ import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
@@ -158,10 +163,27 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <SidebarMenuButton
+          size="lg"
+          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+        >
+          <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+            {_c('site.logo')}
+          </div>
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-semibold">
+              {_c('site.title', 'Admin')}
+            </span>
+            <span className="truncate text-xs">{_c('site.solgan', 'xadmin site')}</span>
+          </div>
+        </SidebarMenuButton>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <Block name="main.menu">
+          {(items: { title: string; url: string; icon?: LucideIcon; isActive?: boolean; items?: { title: string; url: string }[] }[]) => (
+            <NavMain items={data.navMain} />
+          )}
+        </Block>
         <NavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>

@@ -28,7 +28,7 @@ function findFieldByName(name, fields) {
   let currentFields = fields;
   let field;
   for (let { key, index, prefixs } of pathParts) {
-    const trueKey = [ key ]
+    let trueKey = [ key ]
     for (let index = prefixs.length - 1; index >= 0; index--) {
       const p = prefixs[index];
       if(p && p.index == null && p.key) {

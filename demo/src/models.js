@@ -1,7 +1,7 @@
 import React from 'react'
 import { use } from 'xadmin'
 import { fieldBuilder } from 'xadmin-form'
-import { RelateAction } from 'xadmin-model/lib/relate'
+//import { RelateAction } from 'xadmin-model/lib/relate'
 import { C } from 'xadmin-ui'
 
 export default {
@@ -67,7 +67,7 @@ export default {
       website: {
         type: 'string',
         field: {
-          component: (props) => <Input {...props.input} />,
+          // component: (props) => <Input {...props.input} />,
           // validate: value => {
           //   console.log(value)
           //   return value ? '密码必须为字母与数字组合' : '123456'
@@ -183,7 +183,7 @@ export default {
       // }
     },
     itemActions: [
-      (item) => <RelateAction item={item} />,
+      //(item) => <RelateAction item={item} />,
       (item) => <C is="Model.ChildrenModel" model="Post" parent={item} refField="userId" refreshTimeout={3000} />,
       'edit', 'delete'
     ],

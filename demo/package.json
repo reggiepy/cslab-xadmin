@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "4",
     "isomorphic-fetch": "^2.2.1",
     "react": "^18.1.0",
     "react-bootstrap": "^2.3.1",

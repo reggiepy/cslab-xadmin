@@ -1,0 +1,24 @@
+import React from 'react'
+import { DatePicker } from 'antd'
+import moment from 'moment'
+
+export default class DatePickerInput extends React.Component {
+
+  getValue(value) {
+    const { field } = this.props
+    const format = field.datetimeFormat || 'YYYY-MM-DD'
+
+    return value && value.format(format)
+  }
+
+  onChange = (value) => {
+    const { input } = this.props
+    input.onChange(this.getValue(value))
+  }
+
+  render() {
+    const { input, field } = this.props
+    const format = field.datetimeFormat || 'YYYY-MM-DD'
+    return <DatePicker allowClear {...input} onChange={this.onChange} value={input.value ? moment(input.value): null} format={format} />
+  }
+}

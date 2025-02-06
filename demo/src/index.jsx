@@ -5,37 +5,31 @@ import app from 'xadmin';
 import i18n from 'xadmin-i18n'
 import auth from 'xadmin-auth'
 import form from 'xadmin-form'
-import ui, { C, Loading } from 'xadmin-ui'
-import model from 'xadmin-model'
-import relate from 'xadmin-model/lib/relate'
-import filter from 'xadmin-model/lib/filter'
-import actions from 'xadmin-model/lib/actions'
-
-import loading from 'xadmin-ui/lib/loading'
-import splashscreen from 'xadmin-ui/lib/splashscreen'
-
-import modalform from 'xadmin-model/lib/modalform'
-import search from 'xadmin-model/lib/search'
-import reldetail from 'xadmin-model/lib/reldetail'
+import ui, { C, Loading, apps as uiApps } from 'xadmin-ui'
+import model, { apps as modelApps } from 'xadmin-model'
 
 import components from 'xadmin-shadcn'
+
 //import components from 'xadmin-antd'
+import 'antd/dist/antd.min.css'
+
 //import components from 'xadmin-bootstrap'
+//import themes from './themes'
 
 import models from './models'
-// import themes from './themes'
 import API from './api'
 
 import 'moment/locale/zh-cn' 
-// import 'antd/dist/antd.min.css'
-const App = React.lazy(() => import('./App'))
+import App from './App'
+
+const { filter, actions, relate, modalform, search, reldetail } = modelApps
+const { splashscreen } = uiApps
 
 app
 .use(i18n)
 .use(ui)
-.use(loading)
 .use(form)
-//.use(themes)
+// .use(themes)
 .use(model)
 .use(filter)
 .use(actions)
@@ -65,18 +59,18 @@ app
   components: {
     Dashboard: App
   },
-  reducers: {
-    test: (state=0, action) => {
-      if(action.type === 'TEST_ADD') return ++state
-      return state
-    }
-  },
-  mappers: {
-    test: {
-      method: {
-        add: ({ dispatch }) => () => dispatch({ type: 'TEST_ADD' })
-      }
-    }
-  },
+  // reducers: {
+  //   test: (state=0, action) => {
+  //     if(action.type === 'TEST_ADD') return ++state
+  //     return state
+  //   }
+  // },
+  // mappers: {
+  //   test: {
+  //     method: {
+  //       add: ({ dispatch }) => () => dispatch({ type: 'TEST_ADD' })
+  //     }
+  //   }
+  // },
   models
 }).start({ container: '#root' })

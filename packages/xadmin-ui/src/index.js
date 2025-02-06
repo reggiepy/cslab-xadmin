@@ -74,14 +74,14 @@ export default {
       component: Main
     },
     '/' : [ {
-      index: true,
+      path: '',
       element: <Navigate to="/app/" replace />
     }, {
       path: 'app/',
       component: App
     } ],
     '/app/': [ {
-      index: true,
+      path: '',
       component: Dashboard
     }, {
       path: 'dashboard',
