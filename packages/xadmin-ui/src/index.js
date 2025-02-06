@@ -6,17 +6,20 @@ import { Navigate } from 'react-router-dom'
 import splashscreen from './splashscreen'
 
 const C = args => {
-  if(typeof args == 'string') {
+  if (typeof args == 'string') {
     return app.get('components')[args]
   } else {
     const { is, ...props } = args
     const Component = C(is)
-    if(Component) 
+    if (Component) {
       return <Component {...props} />
-    else
-      return <div>Component {is} not found.</div>
+    } else {
+      const NotFoundComponent = app.get('components')['NotFoundComponent']
+      return NotFoundComponent ? <NotFoundComponent {...args}/> : <div>Component {is} not found.</div>
+    }
   }
 }
+
 
 C.lazy = is => props => C({ is, ...props })
 

@@ -3,7 +3,6 @@ import { use } from 'xadmin'
 import { fieldBuilder } from 'xadmin-form'
 import { RelateAction } from 'xadmin-model/lib/relate'
 import { C } from 'xadmin-ui'
-import { Input } from 'antd'
 
 export default {
   User: {

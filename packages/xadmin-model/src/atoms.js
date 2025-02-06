@@ -27,7 +27,8 @@ const modelAtoms = (k, model) => {
         return record.id
       }).filter(Boolean)
       set(ids, newIds)
-    }
+    },
+    cachePolicy_UNSTABLE: { eviction: 'most-recent' }
   })
 
   const count = atom({
@@ -51,7 +52,8 @@ const modelAtoms = (k, model) => {
         ...get(option),
         [key]: value
       })
-    }
+    },
+    cachePolicy_UNSTABLE: { eviction: 'lru', maxSize: 1 }
   })
 
   const fields = optionSelector('fields')
@@ -74,7 +76,8 @@ const modelAtoms = (k, model) => {
     set: (id) => ({ get, set}, where) => {
       set(wheres, { ..._.omit(get(wheres), id), ...(!_.isEmpty(where) ? { [id]: where } : {}) })
       set(skip, 0)
-    }
+    },
+    cachePolicy_UNSTABLE: { eviction: 'lru', maxSize: 1 }
   })
 
   const loading = atomFamily({
@@ -92,7 +95,8 @@ const modelAtoms = (k, model) => {
         selectedItems.push(get(item(id)))
       }
       set(selected, selectedItems)
-    }
+    },
+    cachePolicy_UNSTABLE: { eviction: 'lru', maxSize: 1 }
   })
 
   const allSelected = selector({
@@ -107,7 +111,8 @@ const modelAtoms = (k, model) => {
       } else {
         set(selected, _.differenceWith(get(selected), get(items), (a, b) => a.id == b.id))
       }
-    }
+    },
+    cachePolicy_UNSTABLE: { eviction: 'lru', maxSize: 1 }
   })
 
   const itemOrder = selectorFamily({
@@ -119,7 +124,8 @@ const modelAtoms = (k, model) => {
     set: (field) => ({get, set}, newOrder) => {
       const orders = get(order)
       set(order, { ...orders, [field]: newOrder })
-    }
+    },
+    cachePolicy_UNSTABLE: { eviction: 'lru', maxSize: 1 }
   })
   
   return {

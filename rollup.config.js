@@ -5,6 +5,7 @@ import commonjs from "rollup-plugin-commonjs";
 import postcss from "rollup-plugin-postcss"
 import json from 'rollup-plugin-json'
 import { terser } from 'rollup-plugin-terser'
+import typescript from '@rollup/plugin-typescript';
 //import nodePolyfills from 'rollup-plugin-node-polyfills'
 
 import fs from 'fs'
@@ -17,21 +18,22 @@ const pkgName = appName.replace(/-(\w)/g, function(all, letter){
   return letter.toUpperCase();
  });
 
-const extensions = ['.js', '.jsx']
+const extensions = ['.js', '.jsx', '.ts', '.tsx'];
 
 const makeExternalPredicate = (externalArr) => {
   if (externalArr.length === 0) {
-    return () => false
+    return () => false;
   }
-  const pattern = new RegExp(`^(${externalArr.join('|')})$`)
-  return (id) => pattern.test(id)
-}
+  const pattern = new RegExp(`^(${externalArr.join('|')})$`);
+  return (id) => pattern.test(id);
+};
 
 const babelConfig = {
   extensions,
   presets: [
     require.resolve("@babel/preset-env"),
-    require.resolve("@babel/preset-react")
+    require.resolve("@babel/preset-react"),
+    require.resolve("@babel/preset-typescript")
   ],
   plugins: [
     require.resolve("@babel/plugin-transform-runtime"),
@@ -84,6 +86,7 @@ export default [
         preferBuiltins: true
       }),
       //nodePolyfills(),
+      typescript(), // 添加 TypeScript 插件
       babel(babelConfig),
       commonjs(),
       json(),
@@ -119,6 +122,7 @@ export default [
         preferBuiltins: true
       }),
       //nodePolyfills(),
+      typescript(), // 添加 TypeScript 插件
       babel(babelConfig),
       commonjs(),
       json(),

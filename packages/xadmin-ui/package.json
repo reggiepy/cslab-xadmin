@@ -10,7 +10,7 @@
     "react-redux-loading-bar": "^4.2.0"
   },
   "peerDependencies": {
-    "react": "16",
+    "react": ">=16.8",
     "lodash": "^4.17.11",
     "react-redux": "^8.0.0",
     "react-router": "6",

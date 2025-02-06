@@ -10,7 +10,7 @@
     "isomorphic-fetch": "^2.2.1"
   },
   "peerDependencies": {
-    "xadmin": "2"
+    "xadmin": "3"
   },
   "scripts": {
     "build:lib": "babel src --root-mode upward --out-dir lib",

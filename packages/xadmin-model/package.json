@@ -9,7 +9,7 @@
   "peerDependencies": {
     "lodash": "^4.17.4",
     "moment": "2",
-    "react": "16",
+    "react": ">=16.8",
     "react-router-dom": "6",
     "recoil": "^0.7.3-alpha.2",
     "redux": "4",
