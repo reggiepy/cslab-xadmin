@@ -1,24 +1,57 @@
 import React from 'react'
-import { DatePicker } from 'antd'
 import moment from 'moment'
 
-export default class DatePickerInput extends React.Component {
+import { CalendarIcon } from "lucide-react"
 
-  getValue(value) {
-    const { field } = this.props
-    const format = field.datetimeFormat || 'YYYY-MM-DD'
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
 
-    return value && value.format(format)
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+const DatePickerInput = ({ input, field }) => {
+  const format = field.datetimeFormat || 'YYYY-MM-DD'
+
+  const getValue = (value) => {
+    return value
   }
 
-  onChange = (value) => {
-    const { input } = this.props
-    input.onChange(this.getValue(value))
+  const onChange = (value) => {
+    input.onChange(getValue(value))
   }
 
-  render() {
-    const { input, field } = this.props
-    const format = field.datetimeFormat || 'YYYY-MM-DD'
-    return <DatePicker allowClear {...input} onChange={this.onChange} value={input.value ? moment(input.value): null} format={format} />
-  }
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant={"outline"}
+          className={cn(
+            "w-full w-[240px] pl-3 text-left font-normal",
+            !input.value && "text-muted-foreground"
+          )}
+        >
+          {input.value ? (
+            getValue(input.value)
+          ) : (
+            <span>Pick a date</span>
+          )}
+          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="start">
+        <Calendar
+          mode="single"
+          selected={getValue(input.value)}
+          onSelect={onChange}
+          initialFocus
+        />
+      </PopoverContent>
+    </Popover>
+  )
 }
+
+export default DatePickerInput

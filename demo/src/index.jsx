@@ -1,17 +1,16 @@
-import React from 'react'
 import './index.css';
 import app from 'xadmin';
 
 import i18n from 'xadmin-i18n'
 import auth from 'xadmin-auth'
 import form from 'xadmin-form'
-import ui, { C, Loading, apps as uiApps } from 'xadmin-ui'
+import ui, { apps as uiApps } from 'xadmin-ui'
 import model, { apps as modelApps } from 'xadmin-model'
 
 import components from 'xadmin-shadcn'
 
 //import components from 'xadmin-antd'
-import 'antd/dist/antd.min.css'
+//import 'antd/dist/antd.min.css'
 
 //import components from 'xadmin-bootstrap'
 //import themes from './themes'

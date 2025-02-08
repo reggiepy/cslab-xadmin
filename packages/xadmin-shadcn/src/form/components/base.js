@@ -3,37 +3,51 @@ import _ from 'lodash'
 import { Form, Col } from 'antd'
 import { Input } from '@/components/ui/input'
 
+import {
+  FormControl,
+  FormDescription,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/formui"
+
 const FieldGroup = ({ label, meta, input, field, tailLayout, children }) => {
   const attrs = field.attrs || {}
   const error = meta.touched && (meta.error || meta.submitError)
   const extra = field.description || field.help
 
-  const size = (field.option && field.option.groupSize) || attrs.groupSize || { 
-    labelCol: {
-      xs: { span: 24 },
-      sm: { span: 5 }
-    },
-    wrapperCol: {
-      xs: { span: 24 },
-      sm: { span: 19,  offset: tailLayout ? 5 : 0 }
-    }
-  }
+  // const size = (field.option && field.option.groupSize) || attrs.groupSize || { 
+  //   labelCol: {
+  //     xs: { span: 24 },
+  //     sm: { span: 5 }
+  //   },
+  //   wrapperCol: {
+  //     xs: { span: 24 },
+  //     sm: { span: 19,  offset: tailLayout ? 5 : 0 }
+  //   }
+  // }
 
-  const groupProps = { extra, ...size, required: field.required }
+  // const groupProps = { extra, ...size, required: field.required }
 
-  if (error) {
-    groupProps['validateStatus'] = 'error'
-    if(_.isString(error)) {
-      groupProps['help'] = error
-    }
-  }
+  // if (error) {
+  //   groupProps['validateStatus'] = 'error'
+  //   if(_.isString(error)) {
+  //     groupProps['help'] = error
+  //   }
+  // }
 
   const controlComponent = children ? children : (<Input {...input} {...attrs} />)
   return (
-    <Form.Item label={label} {...groupProps}>
-      {controlComponent}
-      {field.formText ? <span className="ant-form-text"> {field.formText}</span> : null}
-    </Form.Item>
+    <FormItem error={error} className='flex space-x-4'>
+      <FormLabel className='w-1/6 text-right mt-5'>{label}</FormLabel>
+      <div className='flex-1 space-y-2'>
+        <FormControl>
+          {controlComponent}
+        </FormControl>
+        { extra && <FormDescription>{extra}</FormDescription> }
+        <FormMessage>{field.formText}</FormMessage>
+      </div>
+    </FormItem>
   )
 }
 
