@@ -17,11 +17,15 @@ const DatePickerInput = ({ input, field }) => {
   const format = field.datetimeFormat || 'YYYY-MM-DD'
 
   const getValue = (value) => {
-    return value
+    return moment(value).toDate()
+  }
+
+  const formatValue = (value) => {  
+    return moment(value).format(format)
   }
 
   const onChange = (value) => {
-    input.onChange(getValue(value))
+    input.onChange(formatValue(value))
   }
 
   return (
@@ -30,12 +34,12 @@ const DatePickerInput = ({ input, field }) => {
         <Button
           variant={"outline"}
           className={cn(
-            "w-full w-[240px] pl-3 text-left font-normal",
+            "w-60 pl-3 text-left font-normal",
             !input.value && "text-muted-foreground"
           )}
         >
           {input.value ? (
-            getValue(input.value)
+            <span>{formatValue(input.value)}</span>
           ) : (
             <span>Pick a date</span>
           )}

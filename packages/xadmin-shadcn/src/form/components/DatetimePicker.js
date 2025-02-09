@@ -1,37 +1,30 @@
 import React from 'react'
 import moment from 'moment'
-import { DatePicker } from 'antd'
+import { DateTimePicker } from '@/components/ui/datetime-picker'
 
-class DatetimePicker extends React.Component {
+export default ({ input, field }) => {
+  const format = field.datetimeFormat || 'YYYY-MM-DD HH:mm:ss';
 
-  onChange = (value) => {
-    const { input, field } = this.props
-    const format = field.datetimeFormat || 'YYYY-MM-DD HH:mm:ss'
-    input.onChange(value && value.format(format))
+  const getValue = (value) => {
+    return moment(value).toDate()
   }
 
-  onBlur = (value) => {
-    const { input, field } = this.props
-    const format = field.datetimeFormat || 'YYYY-MM-DD HH:mm:ss'
-    input.onChange(value && value.format(format))
+  const formatValue = (value) => {  
+    return moment(value).format(format)
   }
 
-  render() {
-    const { input, field } = this.props
-    const format = field.datetimeFormat || 'YYYY-MM-DD HH:mm:ss'
-    return (
-      <DatePicker
-        disabledDate={this.disabledStartDate}
-        showTime
-        allowClear
-        format={format}
-        value={input.value ? moment(input.value): null}
-        onChange={this.onChange}
+  const onChange = (value) => {
+    input.onChange(formatValue(value))
+  }
+
+  return (
+    <div className='w-80'>
+      <DateTimePicker
+        clearable
+        value={input.value ? getValue(input.value) : new Date()}
+        onChange={onChange}
         onBlur={input.onBlur}
-        style={{ minWidth: 230 }}
       />
-    )
-  }
-}
-
-export default DatetimePicker
+    </div>
+  );
+};

@@ -6,7 +6,7 @@ import form from './form'
 
 import locales from './locales'
 
-//import './index.css'
+import './index.css'
 
 export default {
   name: 'xadmin.ui.shadcn',

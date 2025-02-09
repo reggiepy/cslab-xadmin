@@ -38,9 +38,9 @@ const FieldGroup = ({ label, meta, input, field, tailLayout, children }) => {
 
   const controlComponent = children ? children : (<Input {...input} {...attrs} />)
   return (
-    <FormItem error={error} className='flex space-x-4'>
-      <FormLabel className='w-1/6 text-right mt-5'>{label}</FormLabel>
-      <div className='flex-1 space-y-2'>
+    <FormItem error={error} className='flex space-x-4 space-y-0'>
+      <FormLabel className='w-1/6 h-9 flex items-center justify-end'>{label}</FormLabel>
+      <div className='flex-1'>
         <FormControl>
           {controlComponent}
         </FormControl>

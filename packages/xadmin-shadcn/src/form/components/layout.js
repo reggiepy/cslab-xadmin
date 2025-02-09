@@ -22,7 +22,7 @@ const FormLayout = props => {
   return (
     <Card>
       <CardContent>
-        <form onSubmit={handleSubmit} className="mt-4 space-y-6">
+        <form onSubmit={handleSubmit} className="mt-6 space-y-6">
           {children}
           <div className='flex gap-4 justify-center'>
             <Button type="submit" disabled={invalid || submitting}>{submitting && <Loader2 className="animate-spin" /> }{_t('Save')}</Button>

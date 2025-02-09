@@ -1,27 +1,33 @@
 import React from 'react'
 import { FieldArray } from 'xadmin-form'
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons'
-import { Card, Button } from 'antd'
+import { TrashIcon, PlusIcon } from 'lucide-react'
+import { Button } from "@/components/ui/button"
 import { objectBuilder, prefixFieldKey } from 'xadmin-form'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import app from 'xadmin'
 
 const defaultItemsRender = ({ fields, meta: { touched, error }, field, fieldsBuilder }) => {
   const { items, label } = field
   return (
-    <div>
-      <Button onClick={() => fields.push(null)}><PlusOutlined /></Button>
+    <div className='space-y-4 flex flex-col'>
+      <Button type="button" onClick={() => fields.push(null)}><PlusIcon /></Button>
       {fields.map((name, index) => {
-        const removeBtn = (<Button size="small" onClick={(e) => { fields.remove(index); e.persist() }} style={{ float: 'right' }}><DeleteOutlined /></Button>)
+        const removeBtn = (<Button type="button" variant="ghost" onClick={(e) => { fields.remove(index); e.persist() }} className="float-right"><TrashIcon /></Button>)
         const fieldsComponent = fieldsBuilder(name, index, removeBtn)
         return fieldsComponent.length > 1 ? (
           <Card
-            key={`items${index}`}
-            size="small"
-            title={label + ' ' + (index + 1)}
-            extra={removeBtn}
-            style={{ width: '100%', marginTop: '0.5rem' }}
           >
+            <CardHeader>
+              <CardTitle>{label + ' ' + (index + 1)} {removeBtn}</CardTitle>
+            </CardHeader>
+            <CardContent className='space-y-6'>
             {fieldsComponent}
+            </CardContent>
           </Card>
         ) : fieldsComponent
       })}

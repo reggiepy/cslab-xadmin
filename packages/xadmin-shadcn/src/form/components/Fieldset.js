@@ -1,11 +1,16 @@
 import React from 'react'
-import { Card } from 'antd'
+import {
+  Card,
+  CardContent
+} from "@/components/ui/card"
 import { objectBuilder } from 'xadmin-form'
 
 export default ({ input, label, meta: { touched, error }, field, group, option }) => {
   return (
-    <Card bodyStyle={{ paddingBottom: 10 }} type="inner">
-      {objectBuilder(field.fields, field.fieldsRender, { ...option, group })}
+    <Card>
+      <CardContent className='space-y-6 mt-6'>
+        {objectBuilder(field.fields, field.fieldsRender, { ...option, group })}
+      </CardContent>
     </Card>
   )
 }
