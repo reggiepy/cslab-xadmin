@@ -7,11 +7,6 @@ import {
   CardContent
 } from "@/components/ui/card"
 
-import {
-  FormControl,
-  FormItem
-} from "@/components/ui/formui"
-
 import app from 'xadmin'
 import _ from 'lodash'
 

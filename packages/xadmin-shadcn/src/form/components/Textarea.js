@@ -1,7 +1,6 @@
 import React from 'react'
-import { Input } from 'antd'
-const { TextArea } = Input
+import { Textarea } from "@/components/ui/textarea"
 
 export default ({ input, field }) => {
-  return <TextArea autosize={true} rows={4} {...input} {...field.attrs} />
+  return <Textarea rows={4} {...input} {...field.attrs} />
 }
