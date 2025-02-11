@@ -1,17 +1,17 @@
 import React from 'react'
-import { Radio } from 'antd'
-const RadioButton = Radio.Button
-const RadioGroup = Radio.Group
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group"
 
 export default ({ input, field }) => {
   return (
-    <RadioGroup
+    <ToggleGroup
       {...input}
-      buttonStyle="solid"
       value={input.value}
-      onChange={(event) => { input.onChange(event.target.value) }}
+      onValueChange={input.onChange(value)}
     >
-      {field.titleMap.map(option => (<RadioButton value={option.value}>{option.name}</RadioButton>))}
-    </RadioGroup>
+      {field.titleMap.map(option => (<ToggleGroupItem value={option.value}>{option.name}</ToggleGroupItem>))}
+    </ToggleGroup>
   )
 }

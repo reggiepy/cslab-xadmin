@@ -1,11 +1,18 @@
 import React from 'react'
-import { Radio } from 'antd'
-const RadioGroup = Radio.Group
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { useFormField } from '@/components/ui/formui'
 
 export default ({ input, field }) => {
+  const { formItemId } = useFormField()
+
   return (
-    <RadioGroup {...input} value={input.value} onChange={(event) => { input.onChange(event.target.value) }} >
-      {field.titleMap.map(option => (<Radio value={option.value} checked={option.value == input.value}>{option.name}</Radio>))}
+    <RadioGroup {...input} value={input.value} onValueChange={input.onChange(value)} >
+      {field.titleMap.map((option, index) => (
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value={option.value} id={`${formItemId}-${index}`} />
+            <Label htmlFor={`${formItemId}-${index}`}>{option.name}</Label>
+          </div>
+        ))}
     </RadioGroup>
   )
 }

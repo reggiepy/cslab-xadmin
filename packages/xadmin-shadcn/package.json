@@ -75,7 +75,8 @@
     "build:umd": "rollup -c ../../rollup.config.js",
     "clean": "rm -rf lib es dist",
     "tailwind": "tailwindcss -i ./src/index.css -o ./es/index.css",
-    "build": "npm run clean && npm run build:lib && npm run build:es && npm run tailwind && npm run build:umd"
+    "build": "npm run clean && npm run build:lib && npm run build:es && npm run tailwind && npm run build:umd",
+    "tb": "npm run build:es && npm run tailwind"
   },
   "files": [
     "lib",

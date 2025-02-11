@@ -1,11 +1,18 @@
 import React from 'react'
-import { Form, Modal } from 'antd'
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import {
   Card,
   CardContent
 } from "@/components/ui/card"
+
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
 import app from 'xadmin'
 import _ from 'lodash'
@@ -33,16 +40,24 @@ const ModalLayout = ({ children, invalid, handleSubmit, submitting, title, show,
   const { _t } = app.context
 
   return (
-    <Modal visible={show} onClose={onClose} style={{ maxWidth: 700 }} width="95%"
-      title={title}
-      okText={saveText || _t('Save')}
-      onOk={handleSubmit}
-      okButtonProps={{ disabled: invalid, loading: submitting }}
-      cancelText={_t('Cancel')}
-      onCancel={onClose}
-    >
-      <Form onSubmit={handleSubmit}>{children}</Form>
-    </Modal>
+    <Dialog open={show} onOpenChange={open => !open && onClose ? onClose() : null}>
+      <DialogContent className="sm:max-w-4xl w-5/6 max-h-full overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+        </DialogHeader>
+        <form onSubmit={handleSubmit}>
+          <div className="mt-6 space-y-6">
+            {children}
+          </div>
+          <DialogFooter>
+            <div className='flex gap-4 mt-6'>
+              <Button type="submit" disabled={invalid || submitting}>{submitting && <Loader2 className="animate-spin" /> }{saveText || _t('Save')}</Button>
+              <Button onClick={() => onClose ? onClose() : history.back()}>{_t('Cancel')}</Button>
+            </div>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   )
 }
 

@@ -17,7 +17,7 @@ const defaultItemsRender = ({ fields, meta: { touched, error }, field, fieldsBui
     <div className='space-y-4 flex flex-col'>
       <Button type="button" onClick={() => fields.push(null)}><PlusIcon /></Button>
       {fields.map((name, index) => {
-        const removeBtn = (<Button type="button" variant="ghost" onClick={(e) => { fields.remove(index); e.persist() }} className="float-right"><TrashIcon /></Button>)
+        const removeBtn = (<Button type="button" variant="ghost" onClick={(e) => { fields.remove(index); e.persist() }}><TrashIcon /></Button>)
         const fieldsComponent = fieldsBuilder(name, index, removeBtn)
         return fieldsComponent.length > 1 ? (
           <Card
