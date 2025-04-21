@@ -1,4 +1,5 @@
 import React from 'react'
+import _ from 'lodash'
 import { SchemaForm } from 'xadmin-form'
 import { C } from 'xadmin-ui'
 import { _t } from 'xadmin-i18n'

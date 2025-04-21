@@ -30,9 +30,9 @@ const App = () => {
         validate={values => {
           return {};
         }}
-        option={{ group: C('Form.SimpleGroup') }}
+        // option={{ group: C('Form.SimpleGroup') }}
       >
-        {props => <C is="Form.ModalLayout" {...props} title={"Test Form"} show={show} onClose={handleClose} />}
+        {/* {props => <C is="Form.ModalLayout" {...props} title={"Test Form"} show={show} onClose={handleClose} />} */}
       </SchemaForm>
     </Page>
   );

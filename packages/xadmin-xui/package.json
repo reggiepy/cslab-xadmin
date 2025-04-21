@@ -1,0 +1,40 @@
+{
+  "name": "xadmin-xui",
+  "version": "3.0.1",
+  "description": "Xadmin XUI",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "author": "sshwsfc@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "lucide-react": "^0.474.0"
+  },
+  "peerDependencies": {
+    "@ant-design/icons": "^4.0.3",
+    "antd": "4",
+    "react": ">=17",
+    "lodash": "4",
+    "moment": "2",
+    "react-router": "6",
+    "react-router-dom": "6",
+    "xadmin": "2 || 3",
+    "xadmin-auth": "3",
+    "xadmin-i18n": "3",
+    "xadmin-form": "3",
+    "xadmin-model": "3",
+    "xadmin-ui": "3",
+    "xui": "1"
+  },
+  "scripts": {
+    "build:lib": "babel src --extensions \".js,.jsx,.ts,.tsx\" --root-mode upward --out-dir lib",
+    "build:es": "cross-env BABEL_ENV=es babel src --extensions \".js,.jsx,.ts,.tsx\" --root-mode upward --out-dir es",
+    "build:umd": "rollup -c ../../rollup.config.js",
+    "clean": "rm -rf lib es dist",
+    "build": "npm run clean && npm run build:lib && npm run build:es && npm run build:umd"
+  },
+  "files": [
+    "lib",
+    "es",
+    "dist"
+  ]
+}

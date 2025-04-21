@@ -22,10 +22,12 @@
     "xadmin": "^3.0.0",
     "xadmin-shadcn": "^3.0.0",
     "xadmin-auth": "^3.2.1",
+    "xadmin-xui": "^3.0.0",
     "xadmin-form": "^3.2.0",
     "xadmin-i18n": "^3.1.0",
     "xadmin-model": "^3.2.1",
-    "xadmin-ui": "^3.1.1"
+    "xadmin-ui": "^3.1.1",
+    "xui": "1"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
