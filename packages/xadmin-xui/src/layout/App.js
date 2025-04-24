@@ -59,7 +59,7 @@ function App(props) {
         }`}
       >
         {/* Header */}
-        <header className="shadow-md z-10 p-4 flex justify-between items-center">
+        <header className="shadow-md z-10 p-2 flex justify-between items-center">
           <div className="flex items-center">
             <button
               onClick={toggle}
@@ -69,11 +69,9 @@ function App(props) {
             </button>
           </div>
 
-          <div>
+          <div className="flex items-center space-x-4">
             <ThemeSwitch />
-            <Block name="top.right">
-              {items => <div className="flex items-center space-x-4">{items}</div>}
-            </Block>
+            <Block name="top.right" />
           </div>
         </header>
 
