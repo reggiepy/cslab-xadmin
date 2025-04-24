@@ -1,10 +1,11 @@
-import { Button } from 'xui'
 import React from 'react'
 import _ from 'lodash'
 import { use } from 'xadmin'
 import { _t } from 'xadmin-i18n'
 import { ModelBlock } from 'xadmin-model'
 import { C, Icon, Page, Loading } from 'xadmin-ui'
+import { Button } from "@/components/ui/button"
+import { PencilIcon, PlusIcon } from 'lucide-react'
 
 const DefaultAddButton = ({ onAdd, children }) => (
   <Button onClick={onAdd}>{children}</Button>
@@ -20,7 +21,7 @@ const ModelListPage = () => {
 
   let icon = model.icon || model.name
   if(_.isString(icon)) {
-    icon = <Icon name={icon}/>
+    icon = <Icon name={icon} className="inline" />
   }
   const title = model.title
 
@@ -29,18 +30,18 @@ const ModelListPage = () => {
     return (<>
       <ModelBlock name="model.list.navbtn" />
       { canAdd ?
-        (<AddButton onAdd={onAdd}><Icon name="plus"/> {_t('Add {{object}}', { object: model.title })}</AddButton>) : null
+        (<AddButton onAdd={onAdd}><PlusIcon /> {_t('Add {{object}}', { object: model.title })}</AddButton>) : null
       }
     </>)
   }
 
   const GridComponents = [
-    <div key="model-list-subnav" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '.5rem' }}>
+    <div key="model-list-subnav" className="flex justify-between mb-2">
       <C is="Model.Pagination" />
       <C is="Model.ListSubMenu" />
     </div>,
     <ItemsComponent key="model-list-grid" query={query} />,
-    <div key="model-list-downnav" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '.5rem' }}>
+    <div key="model-list-downnav" className="flex justify-between mt-2">
       <C is="Model.ActionBar" />
       <C is="Model.Pagination" />
     </div>
@@ -48,7 +49,7 @@ const ModelListPage = () => {
   
   return (
     <Page className={`xadmin-model-list-${model.key}`} 
-      title={(<span>{icon} {title}</span>)} 
+      title={(<div className='flex items-center gap-2'>{icon} {title}</div>)} 
       subTitle={<ModelBlock name="model.list.nav" />}
       actions={renderActions()}>
       <ModelBlock name="model.list.submenu" />
@@ -56,10 +57,10 @@ const ModelListPage = () => {
         { sideMenu => (
           <ModelBlock name="model.list.sidepanel" >
             { sidePanel => (sideMenu || sidePanel) ? (
-              <div className="flex flex-row">
-                { sideMenu ? <div className="w-[200px] mr-2">{ sideMenu }</div> : null }
+              <div className="flex">
+                { sideMenu ? <div className="w-1/4 mr-2">{ sideMenu }</div> : null }
                 <div className="flex-1">{GridComponents}</div>
-                { sidePanel ? <div className="w-[200px] ml-2">{ sidePanel }</div> : null }
+                { sidePanel ? <div className="w-1/4 ml-2">{ sidePanel }</div> : null  }
               </div>
             ) : GridComponents }
           </ModelBlock>
@@ -103,7 +104,7 @@ const ModelDetailPage = () => {
     return (<>
       <ModelBlock name="model.detail.navbtn" />
       { canEdit ?
-        (<Button onClick={()=>onEdit(id)}><Icon name="edit"/> {_t('Edit')}</Button>) : null
+        (<Button onClick={()=>onEdit(id)}><PencilIcon /> {_t('Edit')}</Button>) : null
       }
     </>)
   }

@@ -6,7 +6,7 @@ import {
   ChevronsUpDown,
   CreditCard,
   LogOut,
-  Sparkles,
+  Sparkles
 } from "lucide-react"
 
 import {
@@ -29,6 +29,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { ThemeSwitch } from "@/components/theme-switch"
 
 export function NavUser({
   user,
@@ -77,6 +78,7 @@ export function NavUser({
                   <span className="truncate font-semibold">{user.name}</span>
                   <span className="truncate text-xs">{user.email}</span>
                 </div>
+                <ThemeSwitch />
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />

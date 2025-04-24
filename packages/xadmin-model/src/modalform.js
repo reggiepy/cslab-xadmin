@@ -4,6 +4,7 @@ import { SchemaForm } from 'xadmin-form'
 import { C } from 'xadmin-ui'
 import { _t } from 'xadmin-i18n'
 import { use } from 'xadmin'
+import _ from 'lodash'
 import {
   atom
 } from 'recoil'

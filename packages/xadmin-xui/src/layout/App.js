@@ -1,5 +1,6 @@
 import React from 'react'
 import { config as _c, Block, app } from 'xadmin'
+import { ThemeSwitch } from "../components/theme-switch"
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 
 function itemRender(route, params, routes, paths) {
@@ -58,7 +59,7 @@ function App(props) {
         }`}
       >
         {/* Header */}
-        <header className="bg-white shadow-md z-10 p-4 flex justify-between items-center">
+        <header className="shadow-md z-10 p-4 flex justify-between items-center">
           <div className="flex items-center">
             <button
               onClick={toggle}
@@ -69,6 +70,7 @@ function App(props) {
           </div>
 
           <div>
+            <ThemeSwitch />
             <Block name="top.right">
               {items => <div className="flex items-center space-x-4">{items}</div>}
             </Block>
@@ -81,7 +83,7 @@ function App(props) {
         </main>
 
         {/* Footer */}
-        <footer className="p-4 text-center text-gray-600 border-t">
+        <footer className="p-4 text-center border-t">
           &copy; <slot>{_c('site.copyright')}</slot>
         </footer>
       </div>
