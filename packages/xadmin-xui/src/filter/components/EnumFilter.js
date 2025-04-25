@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import { Select } from 'antd'
+import { Select } from 'xui'
 
 const FilterEnum = props => {
   const { input: { value, onChange }, field } = props
@@ -25,15 +25,11 @@ const FilterEnum = props => {
   return (
     <Select
       mode="multiple"
-      style={{ width: '100%' }}
       placeholder={placeholder ? placeholder : '请选择'}
       value={seleted}
       onChange={selectChange}
-    >
-      {titleMap && titleMap.length > 0 && titleMap.map(item => {
-        return <Select.Option key={item.value}>{item.name}</Select.Option>
-      })}
-    </Select>
+      options={[ ...titleMap ].map(o => ({ label: o.name, value: o.value }))}
+    />
   )
 }
 

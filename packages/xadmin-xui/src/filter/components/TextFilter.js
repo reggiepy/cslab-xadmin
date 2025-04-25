@@ -2,8 +2,8 @@ import React from 'react'
 import { config, use } from 'xadmin'
 import _ from 'lodash'
 import { _t } from 'xadmin-i18n'
-import { AimOutlined, SearchOutlined } from '@ant-design/icons'
-import { Input, Tooltip, Typography } from 'antd'
+import { AmphoraIcon as AimOutlined, Search as SearchOutlined } from 'lucide-react'
+import { Input, Tooltip, TooltipTrigger, TooltipContent } from 'xui'
 const Search = Input.Search
 
 const useTextFilter = ({ input }) => {
@@ -52,10 +52,13 @@ const useTextFilter = ({ input }) => {
   }
 
   const clear = () => onValueChange(null)
-  const changeModeBtn = (<Tooltip title={_t('Exact Search')}>
-    <Typography.Text type={!like ? 'success' : 'secondary'} onClick={()=>onLikeChange(!like)} style={{ cursor: 'pointer' }}>
-      { (value == null || value == undefined || value == '') ? null : <AimOutlined /> }
-    </Typography.Text>
+  const changeModeBtn = (<Tooltip>
+    <TooltipTrigger>
+      <span className={'cursor-pointer'} onClick={()=>onLikeChange(!like)} >
+        { like ? <SearchOutlined /> : <AimOutlined /> }
+      </span>
+    </TooltipTrigger>
+    <TooltipContent>{_t('Exact Search')}</TooltipContent>
   </Tooltip>)
 
   return { like, value, onChange, onValueChange, onLikeChange, onKeyPress, clear, changeModeBtn }

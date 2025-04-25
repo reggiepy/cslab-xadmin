@@ -17,8 +17,10 @@ const appName = pkg.name
 const pkgName = appName.replace(/-(\w)/g, function(all, letter){
   return letter.toUpperCase();
  });
+// Get the USE_TS environment variable, default to false if not set
+const useTypescript = process.env.USE_TS === 'true';
 
-const extensions = ['.js', '.jsx', '.ts', '.tsx'];
+const extensions = useTypescript ? ['.js', '.jsx', '.ts', '.tsx'] : ['.js', '.jsx'];
 
 const makeExternalPredicate = (externalArr) => {
   if (externalArr.length === 0) {
@@ -86,7 +88,7 @@ export default [
         preferBuiltins: true
       }),
       //nodePolyfills(),
-      typescript(), // 添加 TypeScript 插件
+      useTypescript && typescript(), // 添加 TypeScript 插件
       babel(babelConfig),
       commonjs(),
       json(),
@@ -99,7 +101,7 @@ export default [
         'process.env.NODE_ENV': JSON.stringify('development'),
         'preventAssignment': true
       }),
-    ],
+    ].filter(Boolean),
   },
 
   // UMD Production
@@ -122,7 +124,7 @@ export default [
         preferBuiltins: true
       }),
       //nodePolyfills(),
-      typescript(), // 添加 TypeScript 插件
+      useTypescript && typescript(), // 添加 TypeScript 插件
       babel(babelConfig),
       commonjs(),
       json(),
@@ -143,6 +145,6 @@ export default [
           warnings: false,
         },
       }),
-    ],
+    ].filter(Boolean),
   },
 ]

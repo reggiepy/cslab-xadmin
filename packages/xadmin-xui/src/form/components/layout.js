@@ -24,7 +24,7 @@ const FormLayout = props => {
         <form onSubmit={handleSubmit} className="mt-6 space-y-6">
           {children}
           <div className='flex gap-4 justify-center'>
-            <Button type="submit" disabled={invalid || submitting}>{submitting && <Spin /> }{_t('Save')}</Button>
+            <Button type="submit" disabled={invalid || submitting} loading={submitting}>{_t('Save')}</Button>
             <Button onClick={() => onCancel ? onCancel() : history.back()}>{_t('Cancel')}</Button>
           </div>
         </form>

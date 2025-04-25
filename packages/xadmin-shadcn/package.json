@@ -72,10 +72,10 @@
   "scripts": {
     "build:lib": "babel src --extensions \".js,.jsx,.ts,.tsx\" --root-mode upward --out-dir lib",
     "build:es": "cross-env BABEL_ENV=es babel src --extensions \".js,.jsx,.ts,.tsx\" --root-mode upward --out-dir es",
-    "build:umd": "rollup -c ../../rollup.config.js",
+    "build:umd": "USE_TS=true rollup -c ../../rollup.config.js",
     "clean": "rm -rf lib es dist",
     "tailwind": "tailwindcss -i ./src/index.css -o ./es/index.css",
-    "build": "npm run clean && npm run build:lib && npm run build:es && npm run tailwind && npm run build:umd",
+    "build": "npm run clean && npm run build:lib && npm run build:es && npm run tailwind",
     "tb": "npm run build:es && npm run tailwind"
   },
   "files": [

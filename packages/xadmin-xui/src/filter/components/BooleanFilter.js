@@ -2,7 +2,8 @@ import React from 'react'
 import _ from 'lodash'
 import app from 'xadmin'
 import { _t } from 'xadmin-i18n'
-import { Switch, Checkbox, Tooltip } from 'antd'
+import { Tooltip } from 'antd'
+import { Switch, Checkbox } from 'xui'
 
 export default props => {
   const { input: { name, value, onChange, ...inputProps }, field } = props
@@ -12,7 +13,7 @@ export default props => {
     <Tooltip title={_t('Use this filter')}>
       { disabled ? <Checkbox checked={false} onClick={()=>onChange(true)}/> : <Checkbox checked={true} onClick={()=>onChange(null)}/> }
     </Tooltip>{' '}
-    <Switch checked={value} disabled={disabled} onChange={onChange}
+    <Switch checked={value} disabled={disabled} onCheckedChange={onChange}
       checkedChildren={field.boolLabel ? field.boolLabel[0] : _t('True')}
       unCheckedChildren={field.boolLabel ? field.boolLabel[1] : _t('False')}
     />

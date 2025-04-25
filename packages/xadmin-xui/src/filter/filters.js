@@ -1,24 +1,45 @@
 import React from 'react'
 import { app, config } from 'xadmin'
-import { FilterOutlined, SearchOutlined } from '@ant-design/icons'
-import { Row, Col, Form, Space, Button, Card, Modal, Typography, Grid } from 'antd'
+import { Search as SearchOutlined, Filter as FilterOutlined } from 'lucide-react'
+import { Row, Col, Form, Space, Modal, Typography, Grid } from 'antd'
+
+import { Input } from 'xui'
+
+import {
+  Button,
+  Card,
+  CardContent,
+  Spin,
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from "xui"
+
+import {
+  FormControl,
+  FormDescription,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "xui"
+
 
 const { useBreakpoint } = Grid;
 
 const FilterForm = ({ children, invalid, handleSubmit, submitting, options, resetFilter }) => {
   const { _t } = app.context
   return (
-    <Form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="space-y-4">
       {children}
       {options && options.submitOnChange ? null : (
-        <Form.Item style={{ textAlign: 'center' }}>
-          <Space>
-            <Button disabled={invalid} loading={submitting} type="primary" onClick={handleSubmit} icon={<SearchOutlined />}>{_t('Search')}</Button>
-            <Button disabled={submitting} onClick={resetFilter}>{_t('Reset')}</Button>
-          </Space>
-        </Form.Item>
+        <div className='flex gap-4 justify-center'>
+          <Button disabled={invalid} loading={submitting} type="primary" onClick={handleSubmit} icon={<SearchOutlined />}>{_t('Search')}</Button>
+          <Button disabled={submitting} onClick={resetFilter}>{_t('Reset')}</Button>
+        </div>
       )}
-    </Form>
+    </form>
   )
 }
 
@@ -44,9 +65,9 @@ const FilterOpenLink = ({ count, onClick, show }) => {
   const screens = useBreakpoint();
   
   return (screens.xxl == false && count > 3) || count > 4 ? 
-  <Typography.Link onClick={onClick}>
+  <Button variant="link" onClick={onClick}>
     {show ? _t('Collapse'): _t('Expand') }
-  </Typography.Link> : null
+  </Button> : null
 }
 
 const Submenu = ({ children, invalid, handleSubmit, submitting, options, resetFilter }) => {
@@ -55,22 +76,20 @@ const Submenu = ({ children, invalid, handleSubmit, submitting, options, resetFi
   const [ showAllFilter, setShowAllFilter ] = React.useState(defaultShowAllFilter)
 
   return (
-    <Form className="ant-advanced-search-form" onSubmit={handleSubmit}>
-      <Card style={{ marginBottom: '.5rem', overflow: 'hidden' }}>
-        <Row gutter={8} style={{ flexWrap: (children.length <= 3 || showAllFilter) ? 'wrap' : 'nowrap' }}>{children}</Row>
-        {options && options.submitOnChange ? null : (
-          <Row>
-            <Col span={24} style={{ textAlign: 'center' }}>
-              <Space>
-                <Button disabled={invalid} loading={submitting} type="primary" onClick={handleSubmit} icon={<SearchOutlined />}>{_t('Search')}</Button>
-                <Button disabled={submitting} onClick={resetFilter}>{_t('Reset')}</Button>
-                <FilterOpenLink count={children.length} onClick={() => setShowAllFilter(!showAllFilter)} show={showAllFilter} />
-              </Space>
-            </Col>
-          </Row>
-        )}
+    <form className="ant-advanced-search-form" onSubmit={handleSubmit}>
+      <Card>
+        <CardContent>
+          <div className="grid grid-cols-6 gap-4" style={{ flexWrap: (children.length <= 3 || showAllFilter) ? 'wrap' : 'nowrap' }}>{children}</div>
+          {options && options.submitOnChange ? null : (
+            <div className='flex gap-4 justify-center mt-4'>
+              <Button disabled={invalid} loading={submitting} onClick={handleSubmit}><SearchOutlined /> {_t('Search')}</Button>
+              <Button disabled={submitting} onClick={resetFilter} variant="secondary">{_t('Reset')}</Button>
+              <FilterOpenLink count={children.length} onClick={() => setShowAllFilter(!showAllFilter)} show={showAllFilter} />
+            </div>
+          )}
+        </CardContent>
       </Card>
-    </Form>
+    </form>
   )
 }
 
