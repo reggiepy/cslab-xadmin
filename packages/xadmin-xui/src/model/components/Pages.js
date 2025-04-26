@@ -20,7 +20,7 @@ const ModelListPage = () => {
 
   let icon = model.icon || model.name
   if(_.isString(icon)) {
-    icon = <Icon name={icon}/>
+    icon = <Icon name={icon} className="inline w-5 h-5"/>
   }
   const title = model.title
 

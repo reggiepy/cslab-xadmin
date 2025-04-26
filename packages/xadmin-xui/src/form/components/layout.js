@@ -24,8 +24,8 @@ const FormLayout = props => {
         <form onSubmit={handleSubmit} className="mt-6 space-y-6">
           {children}
           <div className='flex gap-4 justify-center'>
-            <Button type="submit" disabled={invalid || submitting} loading={submitting}>{_t('Save')}</Button>
-            <Button onClick={() => onCancel ? onCancel() : history.back()}>{_t('Cancel')}</Button>
+            <Button type="submit" disabled={invalid || submitting}>{submitting && <Spin />}{_t('Save')}</Button>
+            <Button onClick={() => onCancel ? onCancel() : history.back()} variant="secondary">{_t('Cancel')}</Button>
           </div>
         </form>
       </CardContent>
@@ -49,7 +49,7 @@ const ModalLayout = ({ children, invalid, handleSubmit, submitting, title, show,
           <DialogFooter>
             <div className='flex gap-4 mt-6'>
               <Button type="submit" disabled={invalid || submitting}>{submitting && <Spin /> }{saveText || _t('Save')}</Button>
-              <Button onClick={() => onClose ? onClose() : history.back()}>{_t('Cancel')}</Button>
+              <Button onClick={() => onClose ? onClose() : history.back()} variant="secondary">{_t('Cancel')}</Button>
             </div>
           </DialogFooter>
         </form>

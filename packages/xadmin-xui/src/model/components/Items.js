@@ -7,33 +7,19 @@ import { SchemaForm } from 'xadmin-form'
 import { C, Loading } from 'xadmin-ui'
 
 const { getFieldProp } = utils
-import {
-  CaretDownOutlined,
-  CaretUpOutlined,
-  CloseOutlined,
-  DeleteOutlined,
-  EditOutlined
-} from '@ant-design/icons'
 
 import { 
   ChevronUp, 
   ChevronDown, 
-  ArrowUpDown, 
-  ChevronLeft, 
-  ChevronRight, 
   CircleX,
-  Edit
+  Edit,
+  Inbox,
+  Trash
 } from "lucide-react";
 
 import {
-  Table,
-  Empty,
-  Menu,
-  Dropdown,
   List,
-  Card,
-  Popconfirm,
-  Popover
+  Card
 } from 'antd'
 
 import {
@@ -41,14 +27,11 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuCheckboxItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuPortal,
+  Popover, PopoverTrigger, PopoverContent,
+  Spin, Label, Popconfirm
 } from 'xui'
 
-import XTable from './DataTable'
+import Table from './DataTable'
 
 import {
   Tooltip, TooltipTrigger, TooltipContent,
@@ -58,9 +41,9 @@ import {
 const ItemEditFormLayout = (props) => {
   const { children, pristine, invalid, handleSubmit, submitting } = props
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-y-2">
       {children}
-      <Button style={{ marginTop: '-1rem' }} block htmlType="submit" loading={submitting} disabled={pristine || invalid} size="small">{_t('Change')}</Button>
+      <Button htmlType="submit" disabled={submitting || pristine || invalid} size="sm" className="w-full">{submitting && <Spin />}{_t('Change')}</Button>
     </form>
   )
 }
@@ -111,10 +94,20 @@ const Item = props => {
   const WrapComponent = editable ? RawWrapComponent : ({ children, ...props }) => {
     const [ edit, setEdit ] = React.useState(false)
     return (
-      <Popover content={(<C is="Model.ItemEditForm" item={item} field={field} value={value} schema={schema} onClose={()=>setEdit(false)} />)} 
-        trigger="click" onVisibleChange={setEdit} visible={edit} placement="right" >
-        <RawWrapComponent {...props} style={{ cursor: 'pointer' }}>{children} <Edit className='inline w-3 h-3 text-gray-400' /></RawWrapComponent>
-      </Popover>
+      <RawWrapComponent {...props}>
+        <div class="group flex justify-between">
+          {children} 
+          <Popover
+            open={edit}
+            onOpenChange={setEdit}
+          >
+            <PopoverTrigger asChild><Edit className='w-4 h-4 text-gray-400 group-hover:block cursor-pointer' /></PopoverTrigger>
+            <PopoverContent className="w-auto" side="right" align="start">
+              <C is="Model.ItemEditForm" item={item} field={field} value={value} schema={schema} onClose={()=>setEdit(false)} />
+            </PopoverContent>
+          </Popover>
+        </div>
+      </RawWrapComponent>
     )
   }
 
@@ -171,7 +164,7 @@ const Header = props => {
 
 const useActions = props => {
   const { renderActions } = use('model.actions')
-  return <div className="model-list-action">{renderActions(props)}</div>
+  return <div className="flex justify-center">{renderActions(props)}</div>
 }
 
 const useList = render => props => {
@@ -189,14 +182,14 @@ const useList = render => props => {
       if(EmptyComponent) {
         return <EmptyComponent />
       } else {
-        return <Card><Empty style={{ marginBottom: '.5rem' }} description={_t('No Data')} /></Card>
+        return <div className="rounded-md border p-8 flex flex-col gap-y-4 items-center"><Inbox className='w-12 h-12 text-gray-400' /><Label>{_t('No Data')}</Label></div>
       }
     }
   }
 }
 
 const DataTableActionRender = props => {
-  return <div style={{ width: '100%', textAlign: 'center' }}>{useActions({ ...props, ...use('model.list.row', { id: props.id }) })}</div>
+  return <div className='w-full'>{useActions({ ...props, ...use('model.list.row', { id: props.id }) })}</div>
 }
 
 const DataTable = useList(({ model, items, fields, size, onRow }) => {
@@ -258,7 +251,7 @@ const DataTable = useList(({ model, items, fields, size, onRow }) => {
   ) : {}
 
   return (
-    <XTable
+    <Table
       columns={columns}
       dataSource={items}
       bordered
@@ -320,11 +313,11 @@ const ActionEdit = props => {
     return (
       <Tooltip key="action-edit">
         <TooltipTrigger>
-          <Button size="sm" onClick={() => onEdit(props.id)}>
-            <EditOutlined />
+          <Button size="sm" variant="ghost" onClick={() => onEdit(props.id)}>
+            <Edit />
           </Button>
         </TooltipTrigger>
-        <TooltipContent side="top">{_t('Edit')}</TooltipContent>
+        <TooltipContent>{_t('Edit')}</TooltipContent>
       </Tooltip>
     )
   }
@@ -338,13 +331,16 @@ const ActionDelete = props => {
 
   if(canDelete) {
     return (
-      <Popconfirm key="action-delete" title={_t('Comfirm Delete') + '?'} onConfirm={()=>deleteItem()} okText={_t('Delete')} cancelText={_t('Cancel')}>
-        <Tooltip placement="top" title={_t('Delete')}>
-          <Button key="action-delete" size="small" className="model-list-action" type="danger">
-            <DeleteOutlined />
-          </Button>
+        <Tooltip key="action-delete">
+          <TooltipTrigger>
+            <Popconfirm title={_t('Comfirm Delete') + '?'} onConfirm={()=>deleteItem()} okText={_t('Delete')} cancelText={_t('Cancel')}>
+              <Button size="sm" variant="ghost" className="text-red" onClick={() => onEdit(props.id)}>
+                <Trash />
+              </Button>
+            </Popconfirm>
+          </TooltipTrigger>
+          <TooltipContent>{_t('Delete')}</TooltipContent>
         </Tooltip>
-      </Popconfirm>
     )
   }
 

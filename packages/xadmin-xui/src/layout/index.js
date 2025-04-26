@@ -2,7 +2,8 @@ import React from 'react'
 import Main from './Main'
 import App from './App'
 import Page from './Page'
-import { AlertOutlined } from '@ant-design/icons'
+import Loading from './Loading'
+import { DynamicIcon } from 'lucide-react/dynamic';
 
-const Icon = ({ name, ...props }) => <AlertOutlined type={name} {...props} />
-export { Main, App, Page, Icon }
+const Icon = ({ name, ...props }) => <DynamicIcon name={name} {...props} />
+export { Main, App, Page, Loading, Icon }

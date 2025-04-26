@@ -4,8 +4,7 @@ import { Search as SearchOutlined, Filter as FilterOutlined } from 'lucide-react
 
 import {
   Button,
-  Card,
-  CardContent,
+  Spin,
   Dialog,
   DialogContent,
   DialogFooter,
@@ -20,8 +19,8 @@ const FilterForm = ({ children, invalid, handleSubmit, submitting, options, rese
       {children}
       {options && options.submitOnChange ? null : (
         <div className='flex gap-2 justify-center'>
-          <Button disabled={invalid} loading={submitting} type="primary" onClick={handleSubmit} icon={<SearchOutlined />}>{_t('Search')}</Button>
-          <Button disabled={submitting} onClick={resetFilter}>{_t('Reset')}</Button>
+          <Button disabled={submitting || invalid} onClick={handleSubmit}>{submitting ? <Spin /> : <SearchOutlined />} {_t('Search')}</Button>
+          <Button disabled={submitting} variant="secondary" onClick={resetFilter}>{_t('Reset')}</Button>
         </div>
       )}
     </form>
@@ -35,8 +34,8 @@ const NavForm = ({ children, invalid, handleSubmit, submitting, options, resetFi
       {children}
       {options && options.submitOnChange ? null : (
         <div className='flex gap-2 justify-center'>
-          <Button disabled={invalid} loading={submitting} type="primary" onClick={handleSubmit} icon={<SearchOutlined />}>{_t('Search')}</Button>
-          <Button disabled={submitting} onClick={resetFilter}>{_t('Reset')}</Button>
+          <Button disabled={submitting || invalid} onClick={handleSubmit}>{submitting ? <Spin /> : <SearchOutlined />} {_t('Search')}</Button>
+          <Button disabled={submitting} variant="secondary" onClick={resetFilter}>{_t('Reset')}</Button>
         </div>
       )}
     </form>
@@ -58,19 +57,15 @@ const Submenu = ({ children, invalid, handleSubmit, submitting, options, resetFi
   const [ showAllFilter, setShowAllFilter ] = React.useState(defaultShowAllFilter)
 
   return (
-    <form className="ant-advanced-search-form" onSubmit={handleSubmit}>
-      <Card>
-        <CardContent>
-          <div className="grid grid-cols-5 gap-2" style={{ flexWrap: (children.length <= 3 || showAllFilter) ? 'wrap' : 'nowrap' }}>{children}</div>
-          {options && options.submitOnChange ? null : (
-            <div className='flex gap-2 justify-center mt-2'>
-              <Button disabled={invalid} loading={submitting} onClick={handleSubmit}><SearchOutlined /> {_t('Search')}</Button>
-              <Button disabled={submitting} onClick={resetFilter} variant="secondary">{_t('Reset')}</Button>
-              <FilterOpenLink count={children.length} onClick={() => setShowAllFilter(!showAllFilter)} show={showAllFilter} />
-            </div>
-          )}
-        </CardContent>
-      </Card>
+    <form className="ant-advanced-search-form rounded-md border p-4" onSubmit={handleSubmit}>
+      <div className="grid grid-cols-5 gap-2" style={{ flexWrap: (children.length <= 3 || showAllFilter) ? 'wrap' : 'nowrap' }}>{children}</div>
+      {options && options.submitOnChange ? null : (
+        <div className='flex gap-2 justify-center mt-2'>
+          <Button disabled={submitting || invalid} onClick={handleSubmit}>{submitting ? <Spin /> : <SearchOutlined />} {_t('Search')}</Button>
+          <Button disabled={submitting} onClick={resetFilter} variant="secondary">{_t('Reset')}</Button>
+          <FilterOpenLink count={children.length} onClick={() => setShowAllFilter(!showAllFilter)} show={showAllFilter} />
+        </div>
+      )}
     </form>
   )
 }
@@ -97,10 +92,10 @@ const FilterModal = ({ children, invalid, handleSubmit, submitting, options, res
             resetFilter()
             setShow(false)
           }}>_t('Reset')</Button>
-          <Button loading={submitting} disabled={invalid} onClick={() => {
+          <Button disabled={submitting || invalid} onClick={() => {
             handleSubmit()
             setShow(false)
-          }}><SearchOutlined /> _t('Search')</Button>
+          }}>{submitting ? <Spin /> : <SearchOutlined />} {_t('Search')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

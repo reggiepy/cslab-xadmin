@@ -1,7 +1,13 @@
 import React from 'react'
 import _ from 'lodash'
-import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, Button, Menu } from 'antd';
+import { ChevronDown } from 'lucide-react';
+
+import { Button,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent
+ } from 'xui'
+
 import { app, use } from 'xadmin'
 import { _t } from 'xadmin-i18n'
 
@@ -10,15 +16,18 @@ export default props => {
   const { count } = use('model.select')
   const { renderActions } = use('model.batchActions')
   const actions = renderActions({ ...props, model })
-  return actions && actions.length > 0 ? (
-    <Dropdown id="model-list-actions" overlay={(
-      <Menu>
+
+  return actions && actions.length > 0 ? ( count > 0 ? 
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Button size={"sm"}>
+          {_t('{{count}} record selected', { count })} <ChevronDown />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
         { React.Children.toArray(actions) }
-      </Menu>
-    )}>
-      <Button>
-        { count > 0 ? _t('{{count}} record selected', { count }) : _t('No data selected')} <DownOutlined />
-      </Button>
-    </Dropdown>
+      </DropdownMenuContent>
+    </DropdownMenu>
+     : <Button size={"sm"} variant="ghost" disabled>{_t('No data selected')}</Button>
   ) : <div></div>;
 }

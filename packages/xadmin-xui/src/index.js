@@ -3,7 +3,7 @@ import app from 'xadmin'
 
 // import 'antd/dist/antd.min.css'
 
-import { Main, App, Page, Icon } from './layout'
+import { Main, App, Page, Loading, Icon } from './layout'
 import { Menu, MenuItem, SubMenu } from './components/menus'
 
 import form from './form'
@@ -19,7 +19,7 @@ export default {
   name: 'xadmin.xui',
   locales,
   components: {
-    Main, App, BaseApp: App, Page, Icon,
+    Main, App, BaseApp: App, Page, Loading, Icon,
     Menu, 'Menu.Item': MenuItem, 'Menu.SubMenu': SubMenu,
     ...form.components,
     ...model.components,

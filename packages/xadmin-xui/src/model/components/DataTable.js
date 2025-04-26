@@ -23,7 +23,7 @@ import { _t } from 'xadmin-i18n'
 const DataTable = ({
   columns = [],
   dataSource = [],
-  rowKey = "key",
+  rowKey = "id",
   loading = false,
   pagination = { pageSize: 10, current: 1, total: 0 },
   onChange,
@@ -40,8 +40,8 @@ const DataTable = ({
 }) => {
   const [currentPage, setCurrentPage] = useState(pagination?.current || 1);
   const [pageSize, setPageSize] = useState(pagination?.pageSize || 10);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [sortedInfo, setSortedInfo] = useState({});
+  const selectedRowKeys = rowSelection?.selectedRowKeys || [];
 
   useEffect(() => {
     if (pagination?.current) {
@@ -87,24 +87,8 @@ const DataTable = ({
   };
 
   // Handle row selection
-  const handleRowSelect = (record) => {
-    const key = record[rowKey];
-    const newSelectedRowKeys = [...selectedRowKeys];
-
-    if (newSelectedRowKeys.includes(key)) {
-      const index = newSelectedRowKeys.indexOf(key);
-      newSelectedRowKeys.splice(index, 1);
-    } else {
-      newSelectedRowKeys.push(key);
-    }
-
-    setSelectedRowKeys(newSelectedRowKeys);
-    rowSelection?.onChange?.(
-      newSelectedRowKeys,
-      newSelectedRowKeys.map((k) =>
-        dataSource.find((item) => item[rowKey] === k)
-      )
-    );
+  const handleRowSelect = (record, selected) => {
+    rowSelection?.onSelect?.(record, selected);
   };
 
   // Sort data if needed
@@ -137,11 +121,8 @@ const DataTable = ({
                 selectedRowKeys.length > 0 &&
                 selectedRowKeys.length === dataSource.length
               }
-              onChange={() => {
-                const allKeys = dataSource.map((item) => item[rowKey]);
-                setSelectedRowKeys(
-                  selectedRowKeys.length === dataSource.length ? [] : allKeys
-                );
+              onChange={(e) => {
+                rowSelection?.onSelectAll?.(e.target.checked);
               }}
             />
           </TableHead>
@@ -215,7 +196,7 @@ const DataTable = ({
                   <TableCell className="w-10">
                     <Checkbox
                       checked={selectedRowKeys.includes(record[rowKey])}
-                      onChange={() => handleRowSelect(record)}
+                      onChange={(e) => handleRowSelect(record, e.target.checked)}
                     />
                   </TableCell>
                 )}

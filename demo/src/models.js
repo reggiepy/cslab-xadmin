@@ -201,7 +201,7 @@ export default {
     defaultPageSize: 20,
     initialValues: { limit: 5 },
     ui: { showMenu: true, menuPath: '/app/users' },
-    initQuery: false,
+    //initQuery: false,
     route: [{
       parentPath: '/app/',
       path: 'users'
@@ -211,7 +211,7 @@ export default {
     name: 'Post',
     resource: 'posts',
     type: 'object',
-    icon: 'file-o', // fa-icon
+    icon: 'file', // fa-icon
     title: 'Post',
     debug: true,
     properties: {

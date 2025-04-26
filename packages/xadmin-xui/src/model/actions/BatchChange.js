@@ -1,6 +1,7 @@
 import React from 'react'
 import _ from 'lodash'
 import { Modal, Menu, Form } from 'antd'
+import { DropdownMenuItem } from 'xui'
 import { SchemaForm } from 'xadmin-form'
 import { app, use } from 'xadmin'
 
@@ -43,13 +44,13 @@ const BatchChangeBtn = props => {
   }
 
   return (canEdit && fields.length > 0) ? [ (
-    <Menu.Item {...props} key="actions_batch_change" 
+    <DropdownMenuItem {...props} key="actions_batch_change" 
       onClick={(e)=>{
         props.onClick && props.onClick(e)
         setShow(true)
       }} disabled={selected.length == 0}>
       {_t('Batch Change Items')}
-    </Menu.Item>
+    </DropdownMenuItem>
   ),
   selected.length > 0 ? renderModel() : null
   ] : null

@@ -56,11 +56,11 @@ const PageSizeButton = () => {
 
 const ColsDropdown = () => {
   const { selected, fields, changeFieldDisplay } = use('model.fields')
-  const [isOpen, setIsOpen] = useState(open)
+  const [isOpen, setIsOpen] = useState(false)
 
   let items = []
   const showFields = Object.keys(fields).filter(name => fields[name].showInList !== false)
-  const menuShow = showFields.length <= 10
+  const menuShow = showFields.length <= 100
 
   for (let name of showFields) {
     let field = fields[name]
@@ -73,7 +73,14 @@ const ColsDropdown = () => {
         changeFieldDisplay([ fieldName, !fieldSelected ])
       }
     if(menuShow) {
-      items.push(<Checkbox key={name} onChange={onClick} checked={fieldSelected}>{title}</Checkbox>)
+      items.push(
+        <div className="flex items-center space-x-2">
+          <Checkbox id={`col-checkbox-${name}`} onChange={onClick} checked={fieldSelected} />
+          <label htmlFor={`col-checkbox-${name}`}>
+            {title}
+          </label>
+        </div>
+      )
     } else {
       items.push(<Button variant={fieldSelected?'default':'secondary'} size="sm" onClick={onClickBtn}>{title}</Button>)
     }
@@ -87,7 +94,7 @@ const ColsDropdown = () => {
       <PopoverTrigger>
         <Button size={"sm"}><SettingOutlined /></Button>
       </PopoverTrigger>
-      <PopoverContent className={menuShow ? "w-[800px]":""}>
+      <PopoverContent className={menuShow ? "flex flex-col gap-y-2":"w-[800px]"}>
         {(
           menuShow ? items :
             <div class="grid grid-cols-8 gap-1 gap-y-2">{items}</div>

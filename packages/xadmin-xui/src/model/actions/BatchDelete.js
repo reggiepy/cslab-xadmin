@@ -1,5 +1,6 @@
 import React from 'react'
 import { Modal, Menu, List } from 'antd'
+import { DropdownMenuItem } from 'xui'
 import { app, use } from 'xadmin'
 
 import { Icon } from 'xadmin-ui'
@@ -39,13 +40,13 @@ const BatchDeleteBtn = props => {
   }
 
   return canDelete ? [ (
-    <Menu.Item {...props} key={'actions_batch_delete'} 
+    <DropdownMenuItem {...props} key={'actions_batch_delete'} 
       onClick={(e)=>{
         props.onClick && props.onClick(e)
         setShow(true)
       }} disabled={selected.length == 0}>
       {_t('Batch Delete Items')}
-    </Menu.Item>
+    </DropdownMenuItem>
   ),
   selected.length > 0 ? renderModel() : null
   ] : null
