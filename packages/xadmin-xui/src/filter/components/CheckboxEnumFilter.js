@@ -1,103 +1,96 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import _ from 'lodash'
-import { Checkbox } from 'antd'
+import { Checkbox } from 'xui'
 import app from 'xadmin'
 
-export default class EnumFilter extends React.Component {
-
-  constructor(props, context) {
-    super(props, context)
+const EnumFilter = (props) => {
+  const initChecks = () => {
     const value = props.input.value
-    // like
-    if(value) {
-      if(typeof value != 'object') {
-        this.state = { checks: [ value ] }
+    if (value) {
+      if (typeof value !== 'object') {
+        return [value]
       } else {
-        this.state = { checks: [ ...value['inq'] ] }
+        return [...value['inq']]
       }
-    } else {
-      this.state = { checks: [] }
     }
+    return []
   }
 
-  getValue(e) {
-    const { checks } = this.state
-    if(checks.length > 1) {
+  const [checks, setChecks] = useState(initChecks())
+
+  const getValue = () => {
+    if (checks.length > 1) {
       return { inq: checks }
-    } else if(checks.length > 0) {
+    } else if (checks.length > 0) {
       return checks[0]
     } else {
       return null
     }
   }
 
-  onChange = (e, value) => {
-    const { onChange } = this.props.input
-    const { checks } = this.state
-    let newChecks = checks
-    if(e.target.checked) {
-      if(checks.indexOf(value) == -1) {
-        newChecks = [ ...checks, value ]
+  const onChange = (e, value) => {
+    const { onChange } = props.input
+    let newChecks = [...checks]
+    
+    if (e.target.checked) {
+      if (checks.indexOf(value) === -1) {
+        newChecks = [...checks, value]
       }
     } else {
-      if(checks.indexOf(value) >= 0) {
-        newChecks = [ ..._.pull(checks, value) ]
+      if (checks.indexOf(value) >= 0) {
+        newChecks = [..._.pull([...checks], value)]
       }
     }
-    if(newChecks != checks) {
-      this.setState({ checks: newChecks }, ()=>{
-        onChange(this.getValue())
-      })
+    
+    if (!_.isEqual(newChecks, checks)) {
+      setChecks(newChecks)
+      onChange(newChecks.length > 1 ? { inq: newChecks } : newChecks.length ? newChecks[0] : null)
     }
   }
 
-  clear = () => {
-    const { onChange } = this.props.input
-    this.setState({ checks: [] }, ()=>{
-      onChange(this.getValue())
-    })
+  const clear = () => {
+    const { onChange } = props.input
+    setChecks([])
+    onChange(null)
   }
 
-  shouldComponentUpdate(nextProps) {
-    return this.props != nextProps
-  }
+  useEffect(() => {
+    setChecks(initChecks())
+  }, [props.input.value])
 
-  componentWillReceiveProps(nextProps) {
-    if(this.props != nextProps) {
-      const value = nextProps.input.value
-      // like
-      if(value) {
-        if(typeof value != 'object') {
-          this.setState({ checks: [ value ] })
-        } else {
-          this.setState({ checks: [ ...value['inq'] ] })
-        }
-      } else {
-        this.setState({ checks: [] })
-      }
-    }
-  }
+  const { input: { name, value, onBlur, onChange: inputOnChange, ...inputProps }, field } = props
+  const { _t } = app.context
 
-  render() {
-    const { input: { name, value, onBlur, onChange, ...inputProps }, field } = this.props
-    const { checks } = this.state
-    const { _t } = app.context 
-    return (
-      <>
-        <Checkbox key="check-clear" id="check-clear"
-          checked={checks.length==0} 
-          onChange={(e)=>{
-            if(e.target.checked) {
-              this.clear()
-            }
-          }} {...inputProps} >{_t('All')}</Checkbox>
-        {field.titleMap.map(option => { return (
-          <Checkbox key={option.name} id={option.name}
-            checked={checks.indexOf(option.value) >= 0} 
-            onChange={(e)=>this.onChange(e, option.value)}
-            {...inputProps} value={option.value} >{option.name}</Checkbox>) })}
-      </>
-    )
-  }
-
+  return (
+    <>
+      <Checkbox
+        key="check-clear"
+        id="check-clear"
+        checked={checks.length === 0}
+        onChange={(e) => {
+          if (e.target.checked) {
+            clear()
+          }
+        }}
+        {...inputProps}
+      >
+        {_t('All')}
+      </Checkbox>
+      
+      {field.titleMap.map(option => (
+        <Checkbox
+          key={option.name}
+          id={option.name}
+          checked={checks.indexOf(option.value) >= 0}
+          onChange={(e) => onChange(e, option.value)}
+          {...inputProps}
+          value={option.value}
+        >
+          {option.name}
+        </Checkbox>
+      ))}
+    </>
+  )
 }
+
+export default EnumFilter

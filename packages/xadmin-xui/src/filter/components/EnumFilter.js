@@ -25,7 +25,7 @@ const FilterEnum = props => {
   return (
     <Select
       mode="multiple"
-      placeholder={placeholder ? placeholder : '请选择'}
+      placeholder={placeholder}
       value={seleted}
       onChange={selectChange}
       options={[ ...titleMap ].map(o => ({ label: o.name, value: o.value }))}

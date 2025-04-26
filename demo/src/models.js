@@ -174,7 +174,7 @@ export default {
       }, ['submitSucceeded', 'submitErrors', 'submitFailed'])
     },
     filters: {
-      submenu: ['name', 'email', 'type', 'superUser', 'id'],
+      submenu: ['name', 'brithday', 'type', 'superUser', 'id'],
       //sidemenu: [ 'name' ]
     },
     formProps: {

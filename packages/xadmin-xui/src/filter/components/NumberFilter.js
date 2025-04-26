@@ -16,11 +16,11 @@ const NumberFilter = props => {
   }
 
   return (
-    <div className='flex space-x-1'>
+    <div className='flex space-x-1 items-center'>
       <InputNumber {...inputProps} {...field.attrs} value={gte}
         placeholder={field.minimum ? `Minimum(${field.minimum})` : _t('No limit')}
         onChange={v => inputChange(v, 'gte')} />
-      <span>~</span>
+      <div>~</div>
       <InputNumber {...inputProps} {...field.attrs} value={lte}
         placeholder={field.maximum ? `Maximum(${field.maximum})` : _t('No limit')}
         onChange={v => inputChange(v, 'lte')} />

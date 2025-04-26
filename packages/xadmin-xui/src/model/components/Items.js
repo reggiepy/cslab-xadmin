@@ -15,6 +15,16 @@ import {
   EditOutlined
 } from '@ant-design/icons'
 
+import { 
+  ChevronUp, 
+  ChevronDown, 
+  ArrowUpDown, 
+  ChevronLeft, 
+  ChevronRight, 
+  CircleX,
+  Edit
+} from "lucide-react";
+
 import {
   Table,
   Empty,
@@ -25,6 +35,20 @@ import {
   Popconfirm,
   Popover
 } from 'antd'
+
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuCheckboxItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuPortal,
+} from 'xui'
+
+import XTable from './DataTable'
 
 import {
   Tooltip, TooltipTrigger, TooltipContent,
@@ -89,7 +113,7 @@ const Item = props => {
     return (
       <Popover content={(<C is="Model.ItemEditForm" item={item} field={field} value={value} schema={schema} onClose={()=>setEdit(false)} />)} 
         trigger="click" onVisibleChange={setEdit} visible={edit} placement="right" >
-        <RawWrapComponent {...props} style={{ cursor: 'pointer' }}>{children} <EditOutlined /></RawWrapComponent>
+        <RawWrapComponent {...props} style={{ cursor: 'pointer' }}>{children} <Edit className='inline w-3 h-3 text-gray-400' /></RawWrapComponent>
       </Popover>
     )
   }
@@ -117,27 +141,30 @@ const Header = props => {
 
     if(canOrder) {
       orderItems = [
-        <Menu.Item onClick={e=>{ changeOrder('ASC') }} key="ASC"><CaretUpOutlined /> {_t('Sort ASC')}</Menu.Item>,
-        <Menu.Item onClick={e=>{ changeOrder('DESC') }} key="DESC"><CaretDownOutlined /> {_t('Sort DESC')}</Menu.Item>
+        <DropdownMenuItem onClick={e=>{ changeOrder('ASC') }} key="ASC"><ChevronUp /> {_t('Sort ASC')}</DropdownMenuItem>,
+        <DropdownMenuItem onClick={e=>{ changeOrder('DESC') }} key="DESC"><ChevronDown/> {_t('Sort DESC')}</DropdownMenuItem>
       ]
       if(order != '') {
-        orderItems.push(<Menu.Item onClick={e=>{ changeOrder('') }}><CloseOutlined /> {_t('Clear order')}</Menu.Item>)
+        orderItems.push(<DropdownMenuItem onClick={e=>{ changeOrder('') }}><CircleX /> {_t('Clear order')}</DropdownMenuItem>)
       }
     }
     return orderItems
   }
   const icon = {
-    'ASC' : <CaretUpOutlined />,
-    'DESC' : <CaretDownOutlined />
+    'ASC' : <ChevronUp className='inline w-4 h-4' />,
+    'DESC' : <ChevronDown className='inline w-4 h-4' />
   }[order] || ''
   const items = [ ...renderOrder(), ...(Block('model.list.header.menu') || []) ]
   
   return (items.filter(item=>!_.isNil(item)).length>0) ? (
-    <Dropdown overlay={(
-      <Menu selectedKeys={[ order ]}>{React.Children.toArray(items)}</Menu>
-    )} trigger={[ 'click' ]}>
-      <a style={{ cursor: 'pointer' }}>{title} {icon}</a>
-    </Dropdown>
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <a className='cursor-pointer'>{title} {icon}</a>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        {items}
+      </DropdownMenuContent>
+    </DropdownMenu>
   ) : ( showText === false ? null : <span>{title} {icon}</span>)
 
 }
@@ -231,7 +258,7 @@ const DataTable = useList(({ model, items, fields, size, onRow }) => {
   ) : {}
 
   return (
-    <Table
+    <XTable
       columns={columns}
       dataSource={items}
       bordered

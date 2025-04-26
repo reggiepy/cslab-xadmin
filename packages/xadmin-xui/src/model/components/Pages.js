@@ -35,12 +35,12 @@ const ModelListPage = () => {
   }
 
   const GridComponents = [
-    <div key="model-list-subnav" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '.5rem' }}>
+    <div key="model-list-subnav" className='flex flex-row justify-between mt-4 mb-4'>
       <C is="Model.Pagination" />
       <C is="Model.ListSubMenu" />
     </div>,
     <ItemsComponent key="model-list-grid" query={query} />,
-    <div key="model-list-downnav" style={{ display: 'flex', justifyContent: 'space-between', marginTop: '.5rem' }}>
+    <div key="model-list-downnav" className='flex flex-row justify-between mt-4'>
       <C is="Model.ActionBar" />
       <C is="Model.Pagination" />
     </div>

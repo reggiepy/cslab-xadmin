@@ -1,6 +1,13 @@
 import _ from 'lodash'
-import React from 'react'
-import { Button, Dropdown, Menu, Popover, Checkbox, Row, Col, Input, Space } from 'antd'
+import React, { useState } from 'react'
+import { Button, Input, Checkbox,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  Popover, PopoverTrigger, PopoverContent, PopoverAnchor
+ } from 'xui'
 import { SettingOutlined } from '@ant-design/icons'
 import { app, use } from 'xadmin'
 import { _t } from 'xadmin-i18n'
@@ -8,14 +15,13 @@ import { ModelBlock } from 'xadmin-model'
 
 const CountButton = () => {
   const { count } = use('model.count')
-  return <Button>{_t('{{count}} records', { count })}</Button>
+  return <Button size={"sm"} variant="ghost">{_t('{{count}} records', { count })}</Button>
 }
 
 const PageSizeButton = () => {
   const { size, sizes, setPageSize } = use('model.pagesize')
-  const [ visible, setVisible ] = React.useState(false)
   const [ inputSize, setInputSize ] = React.useState('')
-  const input = React.createRef()
+  const [open, setOpen] = React.useState(false);
 
   const onSetPageSize = (size) => {
     setPageSize(size)
@@ -27,28 +33,30 @@ const PageSizeButton = () => {
       const size = parseInt(inputSize)
       onSetPageSize(size)
       setInputSize('')
+      setOpen(false)
     }
     e.persist()
   }
 
   return (
-    <Dropdown key="page-size-dropdown" onVisibleChange={setVisible} visible={visible} overlay={(
-      <Menu>
-        {sizes.map(size => <Menu.Item key={`size-${size}`} onClick={()=>setPageSize(size)} eventKey={`size-${size}`}>{_t('Set {{size}} per page', { size })}</Menu.Item>)}
-        <Menu.Item key="size-custom">
-          <Input placeholder={_t('Customize page size')} value={inputSize} onChange={e => setInputSize(e.target.value)} precision={0} onKeyPress={onInputSize} style={{ width: 100 }}/>
-        </Menu.Item>
-      </Menu>
-    )}>
-      <Button>
-        {_t('{{size}} per page', { size })}
-      </Button>
-    </Dropdown>
+    <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenuTrigger>
+        <Button size={"sm"}>
+          {_t('{{size}} per page', { size })}
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        {sizes.map(size => <DropdownMenuItem key={`size-${size}`} onClick={()=>setPageSize(size)}>{_t('Set {{size}} per page', { size })}</DropdownMenuItem>)}
+        <DropdownMenuSeparator />
+          <Input placeholder={_t('Customize page size')} value={inputSize} onChange={e => setInputSize(e.target.value)} precision={0} onKeyPress={onInputSize}/>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
 const ColsDropdown = () => {
   const { selected, fields, changeFieldDisplay } = use('model.fields')
+  const [isOpen, setIsOpen] = useState(open)
 
   let items = []
   const showFields = Object.keys(fields).filter(name => fields[name].showInList !== false)
@@ -67,29 +75,34 @@ const ColsDropdown = () => {
     if(menuShow) {
       items.push(<Checkbox key={name} onChange={onClick} checked={fieldSelected}>{title}</Checkbox>)
     } else {
-      items.push((
-        <Col span={3} key={name} style={{ margin: '5px 0' }}>
-          <Button type={fieldSelected?'primary':'default'} block onClick={onClickBtn}>{title}</Button>
-        </Col>))
+      items.push(<Button variant={fieldSelected?'default':'secondary'} size="sm" onClick={onClickBtn}>{title}</Button>)
     }
   }
 
   return (
-    <Popover placement="bottomRight" overlayStyle={{ maxWidth: '80%' }} content={(
-      menuShow ? items :
-        <Row gutter={12}>{items}</Row>
-    )} trigger="click">
-      <Button type="text"><SettingOutlined /></Button>
+    <Popover
+      open={isOpen}
+      onOpenChange={setIsOpen}
+    >
+      <PopoverTrigger>
+        <Button size={"sm"}><SettingOutlined /></Button>
+      </PopoverTrigger>
+      <PopoverContent className={menuShow ? "w-[800px]":""}>
+        {(
+          menuShow ? items :
+            <div class="grid grid-cols-8 gap-1 gap-y-2">{items}</div>
+        )}
+      </PopoverContent>
     </Popover>
   )
 }
 
 export default ({ children }) => (
-  <Space>
+  <div className="flex gap-x-1">
     <CountButton />
     <PageSizeButton />
     <ModelBlock name="model.list.submenu.btngroup" />
     <ColsDropdown />
     {children}
-  </Space>
+  </div>
 )

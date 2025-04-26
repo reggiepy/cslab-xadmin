@@ -3,8 +3,7 @@ import { config, use } from 'xadmin'
 import _ from 'lodash'
 import { _t } from 'xadmin-i18n'
 import { AmphoraIcon as AimOutlined, Search as SearchOutlined } from 'lucide-react'
-import { Input, Tooltip, TooltipTrigger, TooltipContent } from 'xui'
-const Search = Input.Search
+import { Input, Search, Tooltip, TooltipTrigger, TooltipContent } from 'xui'
 
 const useTextFilter = ({ input }) => {
   const { form } = use('form')

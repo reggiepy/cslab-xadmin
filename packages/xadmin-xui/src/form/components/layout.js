@@ -19,7 +19,7 @@ const FormLayout = props => {
   const { _t } = app.context
   
   return (
-    <Card>
+    <Card className="rounded-md">
       <CardContent>
         <form onSubmit={handleSubmit} className="mt-6 space-y-6">
           {children}

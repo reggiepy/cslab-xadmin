@@ -1,100 +1,89 @@
-import React from 'react'
+import React, { useState } from 'react'
 import moment from 'moment'
-import { DatePicker } from 'antd'
+import { _t } from 'xadmin-i18n'
+import { DateTimePicker } from 'xui'
 
-class DateRange extends React.Component {
+const DateRange = ({ input, field }) => {
+  const [endOpen, setEndOpen] = useState(false);
 
-  state = {
-    endOpen: false
-  }
-
-  disabledStartDate = (startValue) => {
-    const { field } = this.props
-    const endValue = this.state.endValue
+  const disabledStartDate = (startValue) => {
+    const endValue = input.value && input.value.lte && moment(input.value.lte).toDate();
     if (!startValue || !endValue) {
-      return false
+      return false;
     }
-    if(field.attrs && field.attrs.maxDate && field.attrs.maxDate < startValue) {
-      return true
+    if (field.attrs && field.attrs.maxDate && field.attrs.maxDate < startValue) {
+      return true;
     }
-    return startValue.valueOf() > endValue.valueOf()
+    return startValue.valueOf() > endValue.valueOf();
   }
 
-  disabledEndDate = (endValue) => {
-    const { field } = this.props
-    const startValue = this.state.startValue
+  const disabledEndDate = (endValue) => {
+    const startValue = input.value && input.value.gte && moment(input.value.gte).toDate();
     if (!endValue || !startValue) {
-      return false
+      return false;
     }
-    if(field.attrs && field.attrs.maxDate && field.attrs.maxDate < endValue) {
-      return true
+    if (field.attrs && field.attrs.maxDate && field.attrs.maxDate < endValue) {
+      return true;
     }
-    return endValue.valueOf() <= startValue.valueOf()
+    return endValue.valueOf() <= startValue.valueOf();
   }
 
-  onChange = (fieldKey, newValue) => {
-    const { onChange, value } = this.props.input
-    const format = this.props.field.datetimeFormat || 'YYYY-MM-DD HH:mm:ss'
+  const onChange = (fieldKey, newValue) => {
+    const { onChange, value } = input;
+    const format = field.datetimeFormat || 'YYYY-MM-DD HH:mm:ss';
 
     onChange({
       ...value,
-      [fieldKey]: newValue.format(format),
+      [fieldKey]: newValue ? moment(newValue).format(format) : null,
       rule: 'range'
-    })
+    });
   }
 
-  onStartChange = (value) => {
-    this.onChange('gte', value)
+  const onStartChange = (value) => {
+    onChange('gte', value);
   }
 
-  onEndChange = (value) => {
-    this.onChange('lte', value)
+  const onEndChange = (value) => {
+    onChange('lte', value);
   }
 
-  handleStartOpenChange = (open) => {
+  const handleStartOpenChange = (open) => {
     if (!open) {
-      this.setState({ endOpen: true })
+      setEndOpen(true);
     }
   }
 
-  handleEndOpenChange = (open) => {
-    this.setState({ endOpen: open })
+  const handleEndOpenChange = (open) => {
+    setEndOpen(open);
   }
 
-  render() {
-    const { input, field } = this.props
-    const format = field.datetimeFormat || 'YYYY-MM-DD HH:mm:ss'
-    const inputValue = input.value
+  const format = field.datetimeFormat || 'YYYY-MM-DD HH:mm:ss';
+  const inputValue = input.value;
 
-    const { endOpen } = this.state
+  const startValue = inputValue && inputValue.gte && moment(inputValue.gte).toDate();
+  const endValue = inputValue && inputValue.lte && moment(inputValue.lte).toDate();
 
-    const startValue = inputValue && inputValue.gte && moment(inputValue.gte)
-    const endValue = inputValue && inputValue.lte && moment(inputValue.lte)
-
-    return (
-      <>
-        <DatePicker
-          disabledDate={this.disabledStartDate}
-          showTime
-          format={format}
-          value={startValue}
-          placeholder="起始"
-          onChange={this.onStartChange}
-          onOpenChange={this.handleStartOpenChange}
-        /> 到{' '}
-        <DatePicker
-          disabledDate={this.disabledEndDate}
-          showTime
-          format={format}
-          value={endValue}
-          placeholder="结束"
-          onChange={this.onEndChange}
-          open={endOpen}
-          onOpenChange={this.handleEndOpenChange}
-        />
-      </>
-    )
-  }
+  return (
+    <div className='flex space-x-1 items-center'>
+      <DateTimePicker
+        disabledDate={disabledStartDate}
+        clearable
+        value={startValue}
+        placeholder="起始"
+        onChange={onStartChange}
+        onOpenChange={handleStartOpenChange}
+      /> <div>{_t("to")}</div>
+      <DateTimePicker
+        disabledDate={disabledEndDate}
+        clearable
+        value={endValue}
+        placeholder="结束"
+        onChange={onEndChange}
+        open={endOpen}
+        onOpenChange={handleEndOpenChange}
+      />
+    </div>
+  );
 }
 
 export default DateRange

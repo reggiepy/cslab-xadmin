@@ -18,7 +18,7 @@ const FieldGroup = ({ label, meta, input, field, tailLayout, children }) => {
   const controlComponent = children ? children : (<Input {...input} {...attrs} />)
   return (
     <FormItem error={error} className='flex space-x-4 space-y-0'>
-      <FormLabel className='w-1/6 h-9 flex items-center justify-end'>{label}</FormLabel>
+      <FormLabel className='w-1/6 h-9 flex items-center justify-end'>{field.required && <span className='text-destructive'>*</span>}{label}</FormLabel>
       <div className='flex-2'>
         <FormControl>
           {controlComponent}
@@ -55,7 +55,7 @@ const SimpleGroup = ({ label, meta, input, field, children }) => {
   const controlComponent = children ? children : (<Input {...input} {...attrs} />)
   return (
     <FormItem error={error}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel>{field.required && <span className='text-destructive'>*</span>}{label}</FormLabel>
       <FormControl>
         {controlComponent}
       </FormControl>
@@ -74,7 +74,7 @@ const ColGroup = ({ label, meta, input, field, children }) => {
 
   return (
     <FormItem error={error}>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel>{field.required && <span className='text-destructive'>*</span>}{label}</FormLabel>
       <FormControl>
         {controlComponent}
       </FormControl>
