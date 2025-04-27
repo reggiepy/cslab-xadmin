@@ -1,56 +1,86 @@
-import React from 'react'
-import { Modal, Menu, List } from 'antd'
-import { DropdownMenuItem } from 'xui'
-import { app, use } from 'xadmin'
+import React from "react";
 
-import { Icon } from 'xadmin-ui'
+import {
+  Button, Spin,
+  DropdownMenuItem,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "xui";
+import { app, use } from "xadmin";
 
-const BatchDeleteBtn = props => {
-  const { _t } = app.context
-  const [ show, setShow ] = React.useState(false)
-  const { canDelete, loading, onBatchDelete } = use('actons.batch_delete')
-  const { selected } = use('model.select')
-  const { model } = use('model')
+import { Icon } from "xadmin-ui";
+
+const BatchDeleteBtn = (props) => {
+  const { _t } = app.context;
+  const [show, setShow] = React.useState(false);
+  const { canDelete, loading, onBatchDelete } = use("actons.batch_delete");
+  const { selected } = use("model.select");
+  const { model } = use("model");
 
   const onClose = () => {
-    setShow(false)
-  }
+    setShow(false);
+  };
 
   const renderModel = () => {
     return (
-      <Modal
+      <Dialog
         key="actions_batch_delete_modal"
-        title={_t('Confirm to delete selected items')}
-        visible={show}
-        onOk={() => {
-          onBatchDelete().then(onClose)
-        }}
-        okText={_t('Delete')}
-        okType="danger"
-        cancelText={_t('Cancel')}
-        onCancel={onClose}
-        okButtonProps={{ loading }}
+        open={show}
+        onOpenChange={setShow}
       >
-        <List
-          dataSource={selected}
-          renderItem={item => (<List.Item key={item.id}><Icon name={model.icon}/> {model.display ? model.display(item) : item.name}</List.Item>)}
-        />
-      </Modal>
-    )
-  }
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{_t("Confirm to delete selected items")}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-2 my-4">
+            {selected.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center p-3 border-b border-gray-200"
+              >
+                <Icon name={model.icon} className="mr-2" />
+                <span>{model.display ? model.display(item) : item.name}</span>
+              </div>
+            ))}
+          </div>
+          <DialogFooter>
+            <Button variant="secondary" onClick={onClose}>
+              {_t("Cancel")}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => onBatchDelete().then(onClose)}
+              disabled={loading}
+            >
+              {loading && <Spin /> }{_t("Delete")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  };
 
-  return canDelete ? [ (
-    <DropdownMenuItem {...props} key={'actions_batch_delete'} 
-      onClick={(e)=>{
-        props.onClick && props.onClick(e)
-        setShow(true)
-      }} disabled={selected.length == 0}>
-      {_t('Batch Delete Items')}
-    </DropdownMenuItem>
-  ),
-  selected.length > 0 ? renderModel() : null
-  ] : null
+  return canDelete
+    ? [
+        <DropdownMenuItem
+          {...props}
+          key={"actions_batch_delete"}
+          onClick={(e) => {
+            props.onClick && props.onClick(e);
+            setShow(true);
+          }}
+          disabled={selected.length == 0}
+        >
+          {_t("Batch Delete Items")}
+        </DropdownMenuItem>,
+        selected.length > 0 ? renderModel() : null,
+      ]
+    : null;
+};
 
-}
-
-export default BatchDeleteBtn
+export default BatchDeleteBtn;

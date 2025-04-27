@@ -19,17 +19,13 @@ const FormLayout = props => {
   const { _t } = app.context
   
   return (
-    <Card className="rounded-md">
-      <CardContent>
-        <form onSubmit={handleSubmit} className="mt-6 space-y-6">
-          {children}
-          <div className='flex gap-4 justify-center'>
-            <Button type="submit" disabled={invalid || submitting}>{submitting && <Spin />}{_t('Save')}</Button>
-            <Button onClick={() => onCancel ? onCancel() : history.back()} variant="secondary">{_t('Cancel')}</Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
+    <form className="rounded-md border p-4 space-y-4" onSubmit={handleSubmit}>
+      {children}
+      <div className='flex gap-4 justify-center'>
+        <Button type="submit" disabled={invalid || submitting}>{submitting && <Spin />}{_t('Save')}</Button>
+        <Button onClick={() => onCancel ? onCancel() : history.back()} variant="secondary">{_t('Cancel')}</Button>
+      </div>
+    </form>
   )
 }
 
@@ -43,7 +39,7 @@ const ModalLayout = ({ children, invalid, handleSubmit, submitting, title, show,
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
-          <div className="mt-6 space-y-6">
+          <div className="mt-6 space-y-4">
             {children}
           </div>
           <DialogFooter>

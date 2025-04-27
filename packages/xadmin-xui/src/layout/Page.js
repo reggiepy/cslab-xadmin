@@ -7,11 +7,11 @@ const Page = (props) => {
     <div className={className} style={style}>
       <div className="p-2">
         <div className="flex justify-between items-center">
-          <div>
+          <div className='flex gap-x-2 items-center'>
             <h2 className="text-xl font-bold">{title}</h2>
+            {subTitle && <p className="text-muted-foreground">{subTitle}</p>}
           </div>
           {actions && <div className="flex space-x-2">
-            {subTitle && <p className="text-muted-foreground">{subTitle}</p>}
             {actions}
           </div>}
         </div>

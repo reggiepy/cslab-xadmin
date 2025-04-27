@@ -6,6 +6,7 @@ import {
   Button,
   Spin,
   Dialog,
+  DialogTrigger,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -15,7 +16,7 @@ import {
 const FilterForm = ({ children, invalid, handleSubmit, submitting, options, resetFilter }) => {
   const { _t } = app.context
   return (
-    <form onSubmit={handleSubmit} className="flex space-y-2">
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
       {children}
       {options && options.submitOnChange ? null : (
         <div className='flex gap-2 justify-center'>
@@ -30,7 +31,7 @@ const FilterForm = ({ children, invalid, handleSubmit, submitting, options, rese
 const NavForm = ({ children, invalid, handleSubmit, submitting, options, resetFilter }) => {
   const { _t } = app.context
   return (
-    <form onSubmit={handleSubmit} className="flex space-y-2">
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
       {children}
       {options && options.submitOnChange ? null : (
         <div className='flex gap-2 justify-center'>
@@ -86,12 +87,12 @@ const FilterModal = ({ children, invalid, handleSubmit, submitting, options, res
         <DialogHeader>
           <DialogTitle>{_t('Filter Form')}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="flex space-y-2">{children}</form>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-y-2">{children}</form>
         <DialogFooter>
           <Button variant="secondary" onCancel={() => {
             resetFilter()
             setShow(false)
-          }}>_t('Reset')</Button>
+          }}>{_t('Reset')}</Button>
           <Button disabled={submitting || invalid} onClick={() => {
             handleSubmit()
             setShow(false)

@@ -36,7 +36,7 @@ const ModelListPage = () => {
 
   const GridComponents = [
     <div key="model-list-subnav" className='flex flex-row justify-between mt-4 mb-4'>
-      <C is="Model.Pagination" />
+      <C is="Model.Pagination" size="sm" />
       <C is="Model.ListSubMenu" />
     </div>,
     <ItemsComponent key="model-list-grid" query={query} />,

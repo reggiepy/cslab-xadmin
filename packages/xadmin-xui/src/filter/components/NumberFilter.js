@@ -11,19 +11,18 @@ const NumberFilter = props => {
   const lte = !_.isNil(value.lte) ? value.lte : ''
 
   const inputChange = (v, k) => {
-    const vs = _.pickBy({ ...value, [k]: v }, _.isNumber)
+    const vs = _.pickBy({ ...value, [k]: _.toNumber(v) }, _.isNumber)
     onChange(_.isEmpty(vs) ? null : vs)
   }
-
   return (
     <div className='flex space-x-1 items-center'>
-      <InputNumber {...inputProps} {...field.attrs} value={gte}
+      <InputNumber type="number" {...inputProps} {...field.attrs} value={gte}
         placeholder={field.minimum ? `Minimum(${field.minimum})` : _t('No limit')}
-        onChange={v => inputChange(v, 'gte')} />
+        onChange={e => inputChange(e.target.value, 'gte')} />
       <div>~</div>
-      <InputNumber {...inputProps} {...field.attrs} value={lte}
+      <InputNumber type="number" {...inputProps} {...field.attrs} value={lte}
         placeholder={field.maximum ? `Maximum(${field.maximum})` : _t('No limit')}
-        onChange={v => inputChange(v, 'lte')} />
+        onChange={e => inputChange(e.target.value, 'lte')} />
     </div>
   )
 }

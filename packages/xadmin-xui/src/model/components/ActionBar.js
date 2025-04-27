@@ -24,7 +24,7 @@ export default props => {
           {_t('{{count}} record selected', { count })} <ChevronDown />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent forceMount={true}>
         { React.Children.toArray(actions) }
       </DropdownMenuContent>
     </DropdownMenu>

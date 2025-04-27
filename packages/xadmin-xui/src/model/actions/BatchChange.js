@@ -1,7 +1,17 @@
 import React from 'react'
 import _ from 'lodash'
 import { Modal, Menu, Form } from 'antd'
-import { DropdownMenuItem } from 'xui'
+import {
+  Button,
+  DropdownMenuItem,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle,
+  DialogDescription,
+} from "xui";
 import { SchemaForm } from 'xadmin-form'
 import { app, use } from 'xadmin'
 

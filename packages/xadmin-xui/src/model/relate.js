@@ -1,8 +1,8 @@
 import React from 'react'
 import _ from 'lodash'
 import { _t } from 'xadmin-i18n'
-import { Button, Dropdown, Select, Menu, Spin, Empty } from 'antd'
-
+import { Dropdown, Menu, Empty } from 'antd'
+import { Button, Select, Spin } from 'xui'
 import app, { use } from 'xadmin'
 import { Icon } from 'xadmin-ui'
 

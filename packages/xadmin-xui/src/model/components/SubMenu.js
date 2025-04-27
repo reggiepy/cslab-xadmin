@@ -40,7 +40,7 @@ const PageSizeButton = () => {
 
   return (
     <DropdownMenu open={open} onOpenChange={setOpen}>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className="h-8">
         <Button size={"sm"}>
           {_t('{{size}} per page', { size })}
         </Button>
@@ -60,7 +60,7 @@ const ColsDropdown = () => {
 
   let items = []
   const showFields = Object.keys(fields).filter(name => fields[name].showInList !== false)
-  const menuShow = showFields.length <= 100
+  const menuShow = showFields.length <= 10
 
   for (let name of showFields) {
     let field = fields[name]
@@ -91,7 +91,7 @@ const ColsDropdown = () => {
       open={isOpen}
       onOpenChange={setIsOpen}
     >
-      <PopoverTrigger>
+      <PopoverTrigger className="h-8">
         <Button size={"sm"}><SettingOutlined /></Button>
       </PopoverTrigger>
       <PopoverContent className={menuShow ? "flex flex-col gap-y-2":"w-[800px]"}>

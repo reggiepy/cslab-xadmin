@@ -88,6 +88,7 @@ const PaginationComponent = ({
               <PaginationLink
                 isActive={pageNumber === currentPage}
                 onClick={() => !disabled && handlePageChange(pageNumber, pageSize)}
+                size={size}
               >
                 {pageNumber}
               </PaginationLink>
@@ -110,7 +111,6 @@ export default (props) => {
   if (items > 1 || emptyComponent == undefined) {
     return (
       <PaginationComponent showQuickJumper={items > 10} showSizeChanger={false} current={activePage} 
-        size={props.size == 'sm' ? 'small' : ''} className={props.className}
         pageSize={1} total={items} onChange={changePage} {...pagerProps}
       />
     );
@@ -118,7 +118,7 @@ export default (props) => {
     return emptyComponent !== undefined ? (
       emptyComponent
     ) : (
-      <Button>{_t("No paging")}</Button>
+      <Button {...pagerProps}>{_t("No paging")}</Button>
     );
   }
 };
