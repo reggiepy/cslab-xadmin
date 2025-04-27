@@ -39,14 +39,12 @@ const ModalLayout = ({ children, invalid, handleSubmit, submitting, title, show,
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
-          <div className="mt-6 space-y-4">
+          <div className="flex flex-col gap-y-4 pt-4 pb-4">
             {children}
           </div>
           <DialogFooter>
-            <div className='flex gap-4 mt-6'>
-              <Button type="submit" disabled={invalid || submitting}>{submitting && <Spin /> }{saveText || _t('Save')}</Button>
-              <Button onClick={() => onClose ? onClose() : history.back()} variant="secondary">{_t('Cancel')}</Button>
-            </div>
+            <Button onClick={() => onClose ? onClose() : history.back()} variant="secondary">{_t('Cancel')}</Button>
+            <Button type="submit" disabled={invalid || submitting}>{submitting && <Spin /> }{saveText || _t('Save')}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

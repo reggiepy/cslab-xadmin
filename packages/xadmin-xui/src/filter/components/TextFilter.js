@@ -2,8 +2,8 @@ import React from 'react'
 import { config, use } from 'xadmin'
 import _ from 'lodash'
 import { _t } from 'xadmin-i18n'
-import { AmphoraIcon as AimOutlined, Search as SearchOutlined } from 'lucide-react'
-import { Input, Search, Tooltip, TooltipTrigger, TooltipContent } from 'xui'
+import { Zap as AimOutlined, ZapOff as SearchOutlined } from 'lucide-react'
+import { Input, Search, Tooltip, TooltipTrigger, TooltipContent, Button } from 'xui'
 
 const useTextFilter = ({ input }) => {
   const { form } = use('form')
@@ -51,11 +51,11 @@ const useTextFilter = ({ input }) => {
   }
 
   const clear = () => onValueChange(null)
-  const changeModeBtn = (<Tooltip>
+  const changeModeBtn = value && (<Tooltip>
     <TooltipTrigger>
-      <span className={'cursor-pointer'} onClick={()=>onLikeChange(!like)} >
+      <Button size="sm" className={'cursor-pointer'} variant="ghost" onClick={()=>onLikeChange(!like)} >
         { like ? <SearchOutlined /> : <AimOutlined /> }
-      </span>
+      </Button>
     </TooltipTrigger>
     <TooltipContent>{_t('Exact Search')}</TooltipContent>
   </Tooltip>)

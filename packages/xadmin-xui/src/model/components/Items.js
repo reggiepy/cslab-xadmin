@@ -18,11 +18,6 @@ import {
 } from "lucide-react";
 
 import {
-  List,
-  Card
-} from 'antd'
-
-import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
@@ -272,34 +267,50 @@ const DataListRender = props => {
   const Item = C('Model.DataItem')
   
   return (
-    <List.Item actions={[ useActions(props) ]}>
-      <List.Item.Meta
-        title={<Item item={item} field={fields[0]} value={item[fields[0]]} selected={selected} />}
-        description={<Item item={item} field={fields[1]} value={item[fields[1]]} selected={selected} />}
-      />
-      {React.Children.toArray(fields.slice(2).map(field=>{
-        return (
-          <Item item={item} field={field} value={item[field]} selected={selected} inList={true} wrap={
-            ({ children, ...props })=><div key={`item-${item.id}-${field}`} {...props}>{children}</div>
-          } />
-        )
-      }))}
-    </List.Item>
+    <div className="flex flex-col p-4 border-b last:border-b-0 hover:bg-gray-50">
+      <div className="flex justify-between items-start mb-2">
+        <div className="flex flex-col">
+          <div className="font-medium">
+            <Item item={item} field={fields[0]} value={item[fields[0]]} selected={selected} />
+          </div>
+          <div className="text-gray-500 text-sm">
+            <Item item={item} field={fields[1]} value={item[fields[1]]} selected={selected} />
+          </div>
+        </div>
+        <div className="flex space-x-2">
+          {useActions(props)}
+        </div>
+      </div>
+      <div className="mt-2 space-y-2">
+        {React.Children.toArray(fields.slice(2).map(field => (
+          <Item 
+            item={item} 
+            field={field} 
+            value={item[field]} 
+            selected={selected} 
+            inList={true} 
+            wrap={({ children, ...props }) => (
+              <div key={`item-${item.id}-${field}`} className="flex justify-between" {...props}>
+                {children}
+              </div>
+            )} 
+          />
+        )))}
+      </div>
+    </div>
   )
 }
 
 const DataList = useList(({ model, items, fields, size }) => {
   const RenderItem = (model.components && model.components.DataListRender) || C('Model.DataListRender') || DataListRender
   return (
-    <Card>
-      <List
-        itemLayout="vertical"
-        dataSource={items}
-        size={size}
-        renderItem={item => <RenderItem key={item.id} fields={fields} id={item.id} />}
-        {...model.dataListProps}
-      />
-    </Card>
+    <div className="rounded-md border p-4 shadow-sm">
+      <div className="flex flex-col divide-y">
+        {items.map(item => (
+          <RenderItem key={item.id} fields={fields} id={item.id} />
+        ))}
+      </div>
+    </div>
   )
 })
 

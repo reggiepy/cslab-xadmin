@@ -37,11 +37,11 @@ const BatchDeleteBtn = (props) => {
           <DialogHeader>
             <DialogTitle>{_t("Confirm to delete selected items")}</DialogTitle>
           </DialogHeader>
-          <div className="space-y-2 my-4">
+          <div className="divide-y flex flex-col">
             {selected.map((item) => (
               <div
                 key={item.id}
-                className="flex items-center p-3 border-b border-gray-200"
+                className="flex items-center p-3"
               >
                 <Icon name={model.icon} className="mr-2" />
                 <span>{model.display ? model.display(item) : item.name}</span>

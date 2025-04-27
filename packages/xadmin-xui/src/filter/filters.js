@@ -16,7 +16,7 @@ import {
 const FilterForm = ({ children, invalid, handleSubmit, submitting, options, resetFilter }) => {
   const { _t } = app.context
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+    <form onSubmit={handleSubmit} className="flex flex-col space-y-4 rounded-md border p-4">
       {children}
       {options && options.submitOnChange ? null : (
         <div className='flex gap-2 justify-center'>
@@ -58,7 +58,7 @@ const Submenu = ({ children, invalid, handleSubmit, submitting, options, resetFi
   const [ showAllFilter, setShowAllFilter ] = React.useState(defaultShowAllFilter)
 
   return (
-    <form className="ant-advanced-search-form rounded-md border p-4" onSubmit={handleSubmit}>
+    <form className="rounded-md border p-4" onSubmit={handleSubmit}>
       <div className="grid grid-cols-5 gap-2" style={{ flexWrap: (children.length <= 3 || showAllFilter) ? 'wrap' : 'nowrap' }}>{children}</div>
       {options && options.submitOnChange ? null : (
         <div className='flex gap-2 justify-center mt-2'>
@@ -87,7 +87,7 @@ const FilterModal = ({ children, invalid, handleSubmit, submitting, options, res
         <DialogHeader>
           <DialogTitle>{_t('Filter Form')}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-y-2">{children}</form>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-y-4 pt-4 pb-4">{children}</form>
         <DialogFooter>
           <Button variant="secondary" onCancel={() => {
             resetFilter()

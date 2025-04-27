@@ -41,6 +41,10 @@ const ItemModalForm = () => {
   }, [ loading ])
 
   const hasPermission = (data?.id == undefined && canAdd) ||(data?.id != undefined && canEdit)
+  
+  const title = modalItemId ? _t('Edit {{title}}', 
+    { title: model.title + ' ' + (data && data[model.displayField || 'name'] || '') }) : _t('Create {{title}}', { title: model.title })
+
   return ( hasPermission && show && !loading ) ? (
     <SchemaForm 
       formKey={`model.modalform.${model.key}.${modalItemId}`}
@@ -50,7 +54,7 @@ const ItemModalForm = () => {
       onSubmitSuccess={onSubmitSuccess}
       {...model.formProps}
     >
-      { props => <C is="Form.ModalLayout" {...props} title={model.title} show={show} onClose={hideModal} />}
+      { props => <C is="Form.ModalLayout" {...props} title={title} show={show} onClose={hideModal} />}
     </SchemaForm>
   ) : null
 }

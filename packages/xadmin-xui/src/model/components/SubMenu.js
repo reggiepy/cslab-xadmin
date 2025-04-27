@@ -8,7 +8,7 @@ import { Button, Input, Checkbox,
   DropdownMenuSeparator,
   Popover, PopoverTrigger, PopoverContent, PopoverAnchor
  } from 'xui'
-import { SettingOutlined } from '@ant-design/icons'
+import { Columns3 as ColumnsSettings } from 'lucide-react'
 import { app, use } from 'xadmin'
 import { _t } from 'xadmin-i18n'
 import { ModelBlock } from 'xadmin-model'
@@ -92,7 +92,7 @@ const ColsDropdown = () => {
       onOpenChange={setIsOpen}
     >
       <PopoverTrigger className="h-8">
-        <Button size={"sm"}><SettingOutlined /></Button>
+        <Button size={"sm"}><ColumnsSettings /></Button>
       </PopoverTrigger>
       <PopoverContent className={menuShow ? "flex flex-col gap-y-2":"w-[800px]"}>
         {(

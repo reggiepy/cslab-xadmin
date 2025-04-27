@@ -5,6 +5,7 @@ import app from 'xadmin'
 
 import { Main, App, Page, Loading, Icon } from './layout'
 import { Menu, MenuItem, SubMenu } from './components/menus'
+import { message } from 'xui'
 
 import form from './form'
 import model from './model'
@@ -35,5 +36,16 @@ export default {
     ...filter.form_fields,
     ...relate.form_fields,
     ...auth.form_fields
-  }
+  },
+  hooks: {
+    'message': () => Object.assign({}, message, {
+      loading: (content, option) => {
+        const id = Math.random().toString(36).substring(2, 10);
+        message.loading(content, { ...option, id })
+        return () => {
+          message.dismiss(id)
+        }
+      },
+    })
+  },
 }

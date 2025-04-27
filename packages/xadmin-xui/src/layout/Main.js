@@ -1,6 +1,6 @@
 import React from 'react'
 import { Block } from 'xadmin'
-
+import { Toaster } from 'xui'
 export default class Main extends React.Component {
 
   render() {
@@ -10,6 +10,7 @@ export default class Main extends React.Component {
         <div className="xadmin-main">
           {this.props.children}
         </div>
+        <Toaster position="top-center" />
       </>
     )
   }

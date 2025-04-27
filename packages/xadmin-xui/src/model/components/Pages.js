@@ -57,9 +57,9 @@ const ModelListPage = () => {
           <ModelBlock name="model.list.sidepanel" >
             { sidePanel => (sideMenu || sidePanel) ? (
               <div className="flex flex-row">
-                { sideMenu ? <div className="w-[200px] mr-2">{ sideMenu }</div> : null }
+                { sideMenu ? <div className="w-[200px] mr-4 mt-4 mb-4'">{ sideMenu }</div> : null }
                 <div className="flex-1">{GridComponents}</div>
-                { sidePanel ? <div className="w-[200px] ml-2">{ sidePanel }</div> : null }
+                { sidePanel ? <div className="w-[200px] ml-4 mt-4 mb-4'">{ sidePanel }</div> : null }
               </div>
             ) : GridComponents }
           </ModelBlock>

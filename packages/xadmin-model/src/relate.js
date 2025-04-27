@@ -174,6 +174,9 @@ const RelateAction = ({ item }) => {
 
 export default {
   name: 'xadmin.model.relate',
+  components: {
+    'Model.RelateAction': RelateAction,
+  },
   schema_converter,
   filter_converter,
   routers,

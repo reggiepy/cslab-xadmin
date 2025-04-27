@@ -1,8 +1,13 @@
 import React from 'react'
 import _ from 'lodash'
 import { _t } from 'xadmin-i18n'
-import { Dropdown, Menu, Empty } from 'antd'
-import { Button, Select, Spin } from 'xui'
+import { Button, Select, Spin,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from 'xui'
+import { Inbox as Empty } from 'lucide-react'
 import app, { use } from 'xadmin'
 import { Icon } from 'xadmin-ui'
 
@@ -36,7 +41,7 @@ const AsyncSelect = ({ value, isOptionSelected, label, onChange, style, field, .
       showSearch
       labelInValue
       value={value ? value : ( isOptionSelected ? Object.values(data).filter(isOptionSelected) : undefined )}
-      notFoundContent={loading ? <div style={{ margin: '2px', textAlign: 'center' }}><Spin size="small" /></div> : <Empty />}
+      notFoundContent={loading ? <Spin size="small" /> : <Empty />}
       onSearch={loadOptions}
       onChange={onItemChange}
       onBlur={()=>{ loadOptions(null) }}
@@ -122,17 +127,27 @@ const RelateContainer = ({ data, model, children }) => (
   </>
 )
 
-const RelateAction = ({ model, item, actions, ...extraProps }) => (
-  <Dropdown key="dropdown-action-relate" overlay={(
-    <Menu>
-      { actions.map((m, index) => 
-        <Menu.Item key={index} onClick={()=>app.go(`/app/model/${model.name}/${item.id}/relations/${m.name}/`)}>{m.title || m.name}</Menu.Item>
-      )}
-    </Menu>
-  )}>
-    <Button size="small" className="model-list-action">{_t('Relates')}</Button>
-  </Dropdown>
-)
+const RelateAction = ({ model, item, actions=[], ...extraProps }) => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger className="h-8">
+        <Button size="sm" variant="ghost">{_t('Relates')}</Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        {actions.map((m, index) => (
+          <DropdownMenuItem 
+            key={index} 
+            onClick={() => {
+              app.go(`/app/model/${model.name}/${item.id}/relations/${m.name}/`);
+            }}
+          >
+            {m.title || m.name}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
 
 export default {
   components: {

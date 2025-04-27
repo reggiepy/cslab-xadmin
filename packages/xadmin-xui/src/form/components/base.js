@@ -55,7 +55,7 @@ const SimpleGroup = ({ label, meta, input, field, children }) => {
   const controlComponent = children ? children : (<Input {...input} {...attrs} />)
   return (
     <FormItem error={error}>
-      <FormLabel>{field.required && <span className='text-destructive'>*</span>}{label}</FormLabel>
+      <FormLabel>{label}{field.required && <span className='text-destructive'>*</span>}</FormLabel>
       <FormControl>
         {controlComponent}
       </FormControl>

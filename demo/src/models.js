@@ -1,7 +1,6 @@
 import React from 'react'
 import { use } from 'xadmin'
 import { fieldBuilder } from 'xadmin-form'
-//import { RelateAction } from 'xadmin-model/lib/relate'
 import { C } from 'xadmin-ui'
 
 export default {
@@ -183,7 +182,7 @@ export default {
       // }
     },
     itemActions: [
-      //(item) => <RelateAction item={item} />,
+      (item) => <C is="Model.RelateAction" item={item} />,
       (item) => <C is="Model.ChildrenModel" model="Post" parent={item} refField="userId" refreshTimeout={3000} />,
       'edit', 'delete'
     ],
