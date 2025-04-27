@@ -2,7 +2,11 @@ import React from 'react'
 import _ from 'lodash'
 import { Loading } from 'xadmin-ui'
 import { schemaConvert } from 'xadmin-form'
-import { Form, Card } from 'antd'
+import { 
+  FormControl,
+  FormItem,
+  FormLabel,
+ } from 'xui'
 import { Item } from './Items'
 import { use } from 'xadmin'
 
@@ -22,9 +26,12 @@ const FieldGroup = ({ label, field, children }) => {
 
   const groupProps = { extra, ...size, required: field.required }
   return (
-    <Form.Item label={label} {...groupProps}>
-      {children}
-    </Form.Item>
+    <FormItem className='flex space-x-4 space-y-0'>
+      <FormLabel className='w-1/6 h-9 flex items-center justify-end'>{label}</FormLabel>
+      <div className='flex-2 pt-1.5'>
+        {children}
+      </div>
+    </FormItem>
   )
 }
 
@@ -43,9 +50,7 @@ const ModelInfo = ({ data, title, schema, model, loading, saveItem, ...formProps
   }
 
   return loading ? <Loading/> : 
-    (<Form>
-      <Card>{renderFields()}</Card>
-    </Form>)
+    (<div className="rounded-md border p-4 space-y-2">{renderFields()}</div>)
 }
 
 export default (props) => <ModelInfo {...props} {...use('model.get', props)} />

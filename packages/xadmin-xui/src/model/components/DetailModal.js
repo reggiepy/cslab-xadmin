@@ -1,40 +1,38 @@
 import React from 'react'
 import _ from 'lodash'
-import { Modal } from 'antd'
+import { 
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle
+ } from 'xui'
 import { C } from 'xadmin-ui'
+import { _t } from 'xadmin-i18n'
 
-class DetailModal extends React.Component {
+const DetailModal = ({ id, children }) => {
+  const [show, setShow] = React.useState(false)
 
-  state = { show: false }
-
-  showModal() {
-    this.setState({ show: true })
+  const showModal = () => {
+    setShow(true)
   }
 
-  hideModal() {
-    this.setState({ show: false })
-  }
-
-  render() {
-    const { id, children } = this.props
-    
-    return (
-      <>
-        <a style={{ cursor: 'pointer' }} onClick={this.showModal}>
-          {children}
-        </a>
-        { this.state.show && (<Modal
-          visible={this.state.show}
-          onCancel={this.hideModal}
-          title={children}
-        >
-          <C is="Model.DataDetail" id={id} />
-        </Modal>
-        )}
-      </>
-    )
-  }
-
+  return (
+    <>
+      <a className="cursor-pointer" onClick={showModal}>
+        {children}
+      </a>
+      {show && (
+        <Dialog open={show} onOpenChange={setShow}>
+          <DialogContent className="sm:max-w-4xl w-5/6 max-h-full overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{children}</DialogTitle>
+            </DialogHeader>
+            <C is="Model.DataDetail" id={id} />
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
+  )
 }
 
 export default DetailModal
