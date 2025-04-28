@@ -1,7 +1,7 @@
 import React from 'react'
 import { config as _c, Block, app } from 'xadmin'
 import { ThemeSwitch } from "../components/theme-switch"
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
+import { SquareChevronLeft, SquareChevronRight } from 'lucide-react'
 
 function itemRender(route, params, routes, paths) {
   const last = routes.indexOf(route) === routes.length - 1
@@ -35,7 +35,7 @@ function App(props) {
   };
 
   const { routes, params, children } = props;
-  const Icon = collapsed ? MenuFoldOutlined : MenuUnfoldOutlined;
+  const Icon = collapsed ? SquareChevronRight : SquareChevronLeft;
 
   return (
     <div className="flex min-h-screen">
@@ -65,7 +65,7 @@ function App(props) {
               onClick={toggle}
               className="mr-4 text-xl hover:text-blue-600"
             >
-              <Icon />
+              <Icon className='w-4 h-4'/>
             </button>
           </div>
 

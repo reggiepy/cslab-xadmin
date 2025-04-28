@@ -12,6 +12,7 @@ const SignUpForm = props => {
       schema={UserSignUp(app)}
       onSubmit={onSuccess}
       component={C('Auth.Signup') || C('Auth.Form')}
+      group={C('Auth.FormGroup') || null}
     />
   )
 }

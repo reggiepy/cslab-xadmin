@@ -17,6 +17,7 @@ export default props => {
       successMessage={_t('Reset password success')}
       onSubmitSuccess={onSuccess}
       component={C('Auth.ResetPassword') || C('Auth.Form')}
+      group={C('Auth.FormGroup') || null}
     />
   )
 }

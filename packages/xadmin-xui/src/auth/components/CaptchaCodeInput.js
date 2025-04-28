@@ -1,34 +1,34 @@
-import React from 'react'
-import { Input, Col, Row, Tooltip } from 'antd'
+import React, { useState } from 'react'
+import { Input, Tooltip } from 'xui'
 import { app, api } from 'xadmin'
 
-export default class CaptchaCodeInput extends React.Component {
+const CaptchaCodeInput = (props) => {
+  const { input, field } = props
+  const { _t } = app.context
 
-  constructor(props, context) {
-    super(props, context)
-    this.state = { url: this.getCodeUrl() }
-  }
-
-  getCodeUrl() {
-    const { field } = this.props
+  const getCodeUrl = () => {
     return api({}).host + (field.captcha_url || '/get_captcha_code') + '?random=' + Math.random().toString()
   }
 
-  render() {
-    const { input, field } = this.props
-    const { _t } = app.context
+  const [url, setUrl] = useState(getCodeUrl())
 
-    return (
-      <Row gutter={8}>
-        <Col span={14}>
-          <Input {...input} {...field.attrs} />
-        </Col>
-        <Col span={10}>
-          <Tooltip title={_t('Click to refresh captcha code')}>
-            <img style={{ cursor: 'pointer', width: '100%' }} onClick={()=>this.setState({ url: this.getCodeUrl() })} src={ this.state.url } />
-          </Tooltip>
-        </Col>
-      </Row>
-    )
-  }
+  return (
+    <div className="flex gap-x-1">
+      <div className="w-7/12">
+        <Input {...input} {...field.attrs} />
+      </div>
+      <div className="w-5/12">
+        <Tooltip title={_t('Click to refresh captcha code')}>
+          <img 
+            className='w-full h-full cursor-pointer'
+            onClick={() => setUrl(getCodeUrl())} 
+            src={url} 
+            alt="captcha"
+          />
+        </Tooltip>
+      </div>
+    </div>
+  )
 }
+
+export default CaptchaCodeInput

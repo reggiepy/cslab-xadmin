@@ -3,7 +3,7 @@ import { config, use } from 'xadmin'
 import _ from 'lodash'
 import { _t } from 'xadmin-i18n'
 import { Zap as AimOutlined, ZapOff as SearchOutlined } from 'lucide-react'
-import { Input, Search, Tooltip, TooltipTrigger, TooltipContent, Button } from 'xui'
+import { Input, Search, Tooltip, Button } from 'xui'
 
 const useTextFilter = ({ input }) => {
   const { form } = use('form')
@@ -51,13 +51,10 @@ const useTextFilter = ({ input }) => {
   }
 
   const clear = () => onValueChange(null)
-  const changeModeBtn = value && (<Tooltip>
-    <TooltipTrigger>
-      <Button size="sm" className={'cursor-pointer'} variant="ghost" onClick={()=>onLikeChange(!like)} >
-        { like ? <SearchOutlined /> : <AimOutlined /> }
-      </Button>
-    </TooltipTrigger>
-    <TooltipContent>{_t('Exact Search')}</TooltipContent>
+  const changeModeBtn = value && (<Tooltip title={_t('Exact Search')}>
+    <Button size="sm" className={'cursor-pointer'} variant="ghost" onClick={()=>onLikeChange(!like)} >
+      { like ? <SearchOutlined /> : <AimOutlined /> }
+    </Button>
   </Tooltip>)
 
   return { like, value, onChange, onValueChange, onLikeChange, onKeyPress, clear, changeModeBtn }

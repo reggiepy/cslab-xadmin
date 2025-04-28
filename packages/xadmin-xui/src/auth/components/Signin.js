@@ -1,6 +1,13 @@
 import React from 'react'
 import app, { use } from 'xadmin'
-import { Form, Card, Button, Alert } from 'antd'
+import { 
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle, Button, 
+  Spin
+} from 'xui'
 
 const SigininLayout = ({ error, children, invalid, handleSubmit, submitting }) => {
   const { _t } = app.context
@@ -8,23 +15,23 @@ const SigininLayout = ({ error, children, invalid, handleSubmit, submitting }) =
   const nav = use('navigate')
   
   return (
-    <div>
-      <Form className="sigin-form" onSubmit={handleSubmit}>
-        <Card style={{ maxWidth: 450, margin: '5rem auto', marginBottom: '-0.5rem' }} title={_t('Please Login')}>
-          {children}
-          {error && <Alert message={error} type="error" />}
-          <Form.Item wrapperCol={{
-            xs: { span: 24 },
-            sm: { span: 18, offset: 5 }
-          }}>
-            { auth.can_reset_password && (<div>{_t('Forgot password')}? <a onClick={()=>nav('/forget_password')}>{_t('reset password')}</a></div>) }
-            <Button type="primary" loading={submitting} onClick={handleSubmit} htmlType="submit" className="login-form-button">
-              {_t('Login')}
-            </Button>
-            { auth.can_signup && (<div>{_t('Not registed')}? <a onClick={()=>nav('/signup')}>{_t('please signup')}</a></div>) }
-          </Form.Item>
+    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
+      <div className="w-full max-w-md">
+        <Card>
+          <CardHeader>
+            <CardTitle>{_t('Please Login')}</CardTitle>
+            {error && <CardDescription className="text-red-500">{error}</CardDescription>}
+          </CardHeader>
+          <CardContent>
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              {children}
+              { auth.can_reset_password && (<div className='text-sm mt-6'>{_t('Forgot password')}? <a className="cursor-pointer" onClick={()=>nav('/forget_password')}>{_t('reset password')}</a></div>) }
+              <Button className="w-full" type="submit" disabled={submitting}>{submitting && <Spin />}{_t('Login')}</Button>
+              { auth.can_signup && (<div className='text-sm'>{_t('Not registed')}? <a className="cursor-pointer" onClick={()=>nav('/signup')}>{_t('please signup')}</a></div>) }
+            </form>
+          </CardContent>
         </Card>
-      </Form>
+      </div>
     </div>
   )
 }

@@ -10,8 +10,6 @@
     "lucide-react": "^0.474.0"
   },
   "peerDependencies": {
-    "@ant-design/icons": "^4.0.3",
-    "antd": "4",
     "react": ">=17",
     "lodash": "4",
     "moment": "2",

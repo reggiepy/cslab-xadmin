@@ -22,16 +22,13 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  Popover, PopoverTrigger, PopoverContent,
-  Spin, Label, Popconfirm
+  PopoverRoot, PopoverTrigger, PopoverContent,
+  Spin, Label, Popconfirm, 
+  Tooltip,
+  Button
 } from 'xui'
 
 import Table from './DataTable'
-
-import {
-  Tooltip, TooltipTrigger, TooltipContent,
-  Button
-} from 'xui'
 
 const ItemEditFormLayout = (props) => {
   const { children, pristine, invalid, handleSubmit, submitting } = props
@@ -92,7 +89,7 @@ const Item = props => {
       <RawWrapComponent {...props}>
         <div class="group flex justify-between">
           {children} 
-          <Popover
+          <PopoverRoot
             open={edit}
             onOpenChange={setEdit}
           >
@@ -100,7 +97,7 @@ const Item = props => {
             <PopoverContent className="w-auto" side="right" align="start">
               <C is="Model.ItemEditForm" item={item} field={field} value={value} schema={schema} onClose={()=>setEdit(false)} />
             </PopoverContent>
-          </Popover>
+          </PopoverRoot>
         </div>
       </RawWrapComponent>
     )
@@ -322,13 +319,10 @@ const ActionEdit = props => {
 
   if(canEdit) {
     return (
-      <Tooltip key="action-edit">
-        <TooltipTrigger>
-          <Button size="sm" variant="ghost" onClick={() => onEdit(props.id)}>
-            <Edit />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>{_t('Edit')}</TooltipContent>
+      <Tooltip key="action-edit" title={_t('Edit')}>
+        <Button size="sm" variant="ghost" onClick={() => onEdit(props.id)}>
+          <Edit />
+        </Button>
       </Tooltip>
     )
   }
@@ -342,16 +336,13 @@ const ActionDelete = props => {
 
   if(canDelete) {
     return (
-        <Tooltip key="action-delete">
-          <TooltipTrigger>
-            <Popconfirm title={_t('Comfirm Delete') + '?'} onConfirm={()=>deleteItem()} okText={_t('Delete')} cancelText={_t('Cancel')}>
-              <Button size="sm" variant="ghost" className="text-red" onClick={() => onEdit(props.id)}>
-                <Trash />
-              </Button>
-            </Popconfirm>
-          </TooltipTrigger>
-          <TooltipContent>{_t('Delete')}</TooltipContent>
+      <Popconfirm title={_t('Comfirm Delete') + '?'} onConfirm={()=>deleteItem()} okText={_t('Delete')} cancelText={_t('Cancel')}>
+        <Tooltip key="action-delete" title={_t('Delete')}>
+          <Button size="sm" variant="ghost" className="text-red" onClick={() => onEdit(props.id)}>
+            <Trash />
+          </Button>
         </Tooltip>
+      </Popconfirm>
     )
   }
 

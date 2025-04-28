@@ -15,6 +15,7 @@ export default props => {
         onSubmit={onChange}
         submitText={_t('Change Password')}
         component={C('Auth.ChangePassword') || C('Auth.Form')}
+        group={C('Auth.FormGroup') || null}
       />
     </Page>
   )

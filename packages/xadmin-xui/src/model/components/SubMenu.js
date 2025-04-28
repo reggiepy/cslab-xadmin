@@ -6,8 +6,9 @@ import { Button, Input, Checkbox,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  Popover, PopoverTrigger, PopoverContent, PopoverAnchor
+  PopoverRoot, PopoverTrigger, PopoverContent, PopoverAnchor
  } from 'xui'
+
 import { Columns3 as ColumnsSettings } from 'lucide-react'
 import { app, use } from 'xadmin'
 import { _t } from 'xadmin-i18n'
@@ -87,7 +88,7 @@ const ColsDropdown = () => {
   }
 
   return (
-    <Popover
+    <PopoverRoot
       open={isOpen}
       onOpenChange={setIsOpen}
     >
@@ -100,7 +101,7 @@ const ColsDropdown = () => {
             <div class="grid grid-cols-8 gap-1 gap-y-2">{items}</div>
         )}
       </PopoverContent>
-    </Popover>
+    </PopoverRoot>
   )
 }
 

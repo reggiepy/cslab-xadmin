@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import { Button, Input } from 'xui'
 import app, { use } from 'xadmin'
-import { CloseCircleFilled } from '@ant-design/icons'
+import { CircleX } from 'lucide-react'
 
 const Search = ({ placeholder, value, onChange, onSearch, onPressEnter, style, allowClear = true, loading = false }) => {
   const [inputValue, setInputValue] = React.useState(value || '')
@@ -61,8 +61,8 @@ const Search = ({ placeholder, value, onChange, onSearch, onPressEnter, style, a
       }
       suffix={
         allowClear && inputValue ? (
-          <CloseCircleFilled
-            style={{ color: '#ccc', cursor: 'pointer' }}
+          <CircleX
+            className='cursor-pointer'
             onClick={handleClear}
           />
         ) : null
