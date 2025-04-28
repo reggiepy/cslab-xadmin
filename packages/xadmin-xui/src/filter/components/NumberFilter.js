@@ -18,11 +18,11 @@ const NumberFilter = props => {
     <div className='flex space-x-1 items-center'>
       <InputNumber type="number" {...inputProps} {...field.attrs} value={gte}
         placeholder={field.minimum ? `Minimum(${field.minimum})` : _t('No limit')}
-        onChange={e => inputChange(e.target.value, 'gte')} />
+        onChange={value => inputChange(value, 'gte')} />
       <div>~</div>
       <InputNumber type="number" {...inputProps} {...field.attrs} value={lte}
         placeholder={field.maximum ? `Maximum(${field.maximum})` : _t('No limit')}
-        onChange={e => inputChange(e.target.value, 'lte')} />
+        onChange={value => inputChange(value, 'lte')} />
     </div>
   )
 }

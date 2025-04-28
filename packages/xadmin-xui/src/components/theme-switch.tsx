@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { Check, MoonIcon, SunIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { useTheme } from '@/context/theme-context'
 import { Button } from 'xui'
 import {
@@ -8,6 +7,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  cn
 } from 'xui'
 
 export function ThemeSwitch() {
@@ -30,7 +30,7 @@ export function ThemeSwitch() {
           <span className='sr-only'>Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent side='right'>
         <DropdownMenuItem onClick={() => setTheme('light')}>
           Light{' '}
           <Check
