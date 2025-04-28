@@ -320,7 +320,7 @@ const ActionEdit = props => {
   if(canEdit) {
     return (
       <Tooltip key="action-edit" title={_t('Edit')}>
-        <Button size="sm" variant="ghost" onClick={() => onEdit(props.id)}>
+        <Button size="xs" variant="ghost" onClick={() => onEdit(props.id)}>
           <Edit />
         </Button>
       </Tooltip>
@@ -338,7 +338,7 @@ const ActionDelete = props => {
     return (
       <Popconfirm title={_t('Comfirm Delete') + '?'} onConfirm={()=>deleteItem()} okText={_t('Delete')} cancelText={_t('Cancel')}>
         <Tooltip key="action-delete" title={_t('Delete')}>
-          <Button size="sm" variant="ghost" className="text-red" onClick={() => onEdit(props.id)}>
+          <Button size="xs" variant="ghost" className="text-red" onClick={() => onEdit(props.id)}>
             <Trash />
           </Button>
         </Tooltip>

@@ -1,20 +1,19 @@
 {
   "name": "xadmin-xui",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Xadmin XUI",
   "main": "lib/index.js",
   "module": "es/index.js",
   "author": "sshwsfc@gmail.com",
   "license": "MIT",
-  "dependencies": {
-    "lucide-react": "^0.474.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": ">=17",
     "lodash": "4",
     "moment": "2",
     "react-router": "6",
     "react-router-dom": "6",
+    "lucide-react": "^0.474.0",
     "xadmin": "2 || 3",
     "xadmin-auth": "3",
     "xadmin-i18n": "3",

@@ -130,8 +130,8 @@ const RelateContainer = ({ data, model, children }) => (
 const RelateAction = ({ model, item, actions=[], ...extraProps }) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="h-8">
-        <Button size="sm" variant="ghost">{_t('Relates')}</Button>
+      <DropdownMenuTrigger className="h-7">
+        <Button size="xs" variant="ghost">{_t('Relates')}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         {actions.map((m, index) => (
