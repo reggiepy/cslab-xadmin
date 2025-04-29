@@ -6,6 +6,7 @@ import app from 'xadmin'
 import { Main, App, Page, Loading, Icon } from './layout'
 import { Menu, MenuItem, SubMenu } from './components/menus'
 import { message } from 'xui'
+import { useTheme } from '@/context/theme-context'
 
 import form from './form'
 import model from './model'
@@ -38,6 +39,7 @@ export default {
     ...auth.form_fields
   },
   hooks: {
+    'theme': () => useTheme(),
     'message': () => Object.assign({}, message, {
       loading: (content, option) => {
         const id = Math.random().toString(36).substring(2, 10);

@@ -8,7 +8,7 @@ const Page = (props) => {
       <div className="px-4 flex flex-col border-b h-14 justify-center">
         <div className="w-full flex justify-between items-center">
           <div className='flex gap-x-2 items-center'>
-            <h2 className="text-xl font-bold">{title}</h2>
+            <h2 className="text-lg font-bold">{title}</h2>
             {subTitle && <p className="text-muted-foreground">{subTitle}</p>}
           </div>
           {actions && <div className="flex space-x-2">

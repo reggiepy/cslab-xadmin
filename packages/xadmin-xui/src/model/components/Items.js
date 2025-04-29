@@ -264,7 +264,7 @@ const DataListRender = props => {
   const Item = C('Model.DataItem')
   
   return (
-    <div className="flex flex-col p-4 border-b last:border-b-0 hover:bg-gray-50">
+    <div className="flex flex-col p-4 border-b last:border-b-0">
       <div className="flex justify-between items-start mb-2">
         <div className="flex flex-col">
           <div className="font-medium">
