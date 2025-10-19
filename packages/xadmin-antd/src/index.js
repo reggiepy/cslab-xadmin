@@ -11,7 +11,6 @@ import model from './model'
 import relate from './model/relate'
 import filter from './filter'
 import auth from './auth'
-import effects from './effects'
 import locales from './locales'
 
 export default {
@@ -34,6 +33,5 @@ export default {
   },
   hooks: {
     'message': () => message
-  },
-  effects
+  }
 }

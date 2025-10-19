@@ -2,7 +2,6 @@ import React from 'react'
 import app from 'xadmin'
 import { Navigate } from 'react-router-dom'
 
-// import loading from './loading'
 import splashscreen from './splashscreen'
 
 const C = args => {

@@ -1,5 +1,5 @@
 import App from './app'
-import rrs from './rrs'
+import rrs from './react'
 import RESTBaseAPI from './api'
 import { Block } from './block'
 
