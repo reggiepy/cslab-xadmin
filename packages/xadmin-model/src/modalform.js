@@ -7,7 +7,7 @@ import { use } from 'xadmin'
 
 import {
   atom
-} from 'recoil'
+} from 'jotai'
 
 const ItemModalForm = () => {
   const { model } = use('model')
@@ -64,9 +64,7 @@ export default {
   blocks: {
     'model.list.navbtn': () => <ItemModalForm />
   },
-  modelAtoms: [ (k) => ({ modalItem: atom({
-    key: k('modalItem'), default: null
-  }) }) ],
+  modelAtoms: [ (k) => ({ modalItem: atom(null) }) ],
   hooks: {
     'model.event': () => {
       const setModalItemId = use('model.setter', 'modalItem')

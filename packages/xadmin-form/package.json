@@ -2,8 +2,9 @@
   "name": "xadmin-form",
   "version": "3.2.5",
   "description": "Xadmin Form",
-  "main": "lib/index.js",
-  "module": "es/index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "unpkg": "dist/index.umd.js",
   "author": "sshwsfc@gmail.com",
   "license": "MIT",
   "dependencies": {
@@ -16,6 +17,7 @@
   },
   "peerDependencies": {
     "react": ">=16.8",
+    "react/jsx-runtime": ">=16.8",
     "lodash": "^4.17.11",
     "react-redux": "^8.0.0",
     "moment": "2",
@@ -24,6 +26,7 @@
     "xadmin-ui": "3"
   },
   "scripts": {
+    "vite": "vite build --config ../../vite.config.js",
     "build:lib": "babel src --root-mode upward --out-dir lib",
     "build:es": "cross-env BABEL_ENV=es babel src --root-mode upward --out-dir es",
     "build:umd": "rollup -c ../../rollup.config.js",

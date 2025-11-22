@@ -6,7 +6,6 @@ import { C } from 'xadmin-ui'
 import { getFieldProp } from '../utils'
 import filter_converter from './filters'
 
-import { useRecoilState, useSetRecoilState } from 'recoil'
 
 const convert = (schema, options) => {
   const opts = options || {}
@@ -23,8 +22,8 @@ const FilterForm = (props) => {
 
 const BaseFilter = props => {
   const { name, component, group, fieldProps } = props
-  const { model, atoms } = use('model')
-  const [data, setFilters] = useRecoilState(atoms.where('filters'))
+  const { model } = use('model')
+  const [data, setFilters] = use('model.state', 'where', 'filters')
 
   const { filters, options, formKey } = React.useMemo(() => {
     const formKey = `filter.${model.key || model.name}`
@@ -102,9 +101,9 @@ export default {
   },
   hooks: {
     'model.list.filter': () => {
-      const { model, atoms } = use('model')
+      const { model } = use('model')
       const { form } = use('form')
-      const setFilters = useSetRecoilState(atoms.where('filters'))
+      const setFilters = use('model.setter', 'where', 'filters')
 
       const resetFilter = React.useCallback(() => {
         const initial = _.isFunction(model.initialValues) ? model.initialValues() : model.initialValues

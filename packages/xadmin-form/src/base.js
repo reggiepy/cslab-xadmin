@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { app, config, use } from 'xadmin'
 import { Form as RForm, useForm as rUseForm } from 'react-final-form'
 import arrayMutators from 'final-form-arrays'
@@ -15,7 +15,7 @@ import { findFieldByName } from './utils'
 const datetimeRegex = /^[1-9]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\s+(20|21|22|23|[0-1]\d):[0-5]\d:[0-5]\d$/
 const ajv = new Ajv({ allErrors: true, verbose: true, nullable: true, formats: { datetime: datetimeRegex } })
 
-const BaseForm = (props) => {
+const BaseForm = ({ key, ...props }) => {
   const { effect, fields, render, option, component, children, handleSubmit, errors, ...formProps } = props
   const { form } = use('form')
   const invalid = !(_.isNil(errors) || _.isEmpty(errors))
@@ -34,12 +34,12 @@ const BaseForm = (props) => {
 
   if(component) {
     const FormComponent = component
-    return <FormComponent {...props} invalid={invalid} >{build_fields}</FormComponent>
+    return <FormComponent key={key} {...props} invalid={invalid} >{build_fields}</FormComponent>
   } else if(children) {
     return children({ ...props, invalid, children: build_fields })
   } else {
     const FormComponent = C('Form.Layout')
-    return <FormComponent {...props} invalid={invalid} >{build_fields}</FormComponent>
+    return <FormComponent key={key} {...props} invalid={invalid} >{build_fields}</FormComponent>
   }
 }
 

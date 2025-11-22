@@ -2,8 +2,9 @@
   "name": "xadmin-antd",
   "version": "3.3.3",
   "description": "Xadmin Antd UI",
-  "main": "lib/index.js",
-  "module": "es/index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "unpkg": "dist/index.umd.js",
   "author": "sshwsfc@gmail.com",
   "license": "MIT",
   "dependencies": {},
@@ -11,6 +12,7 @@
     "@ant-design/icons": "^4.0.3",
     "antd": "4",
     "react": ">=16.8",
+    "react/jsx-runtime": ">=16.8",
     "lodash": "4",
     "moment": "2",
     "react-router": "6",
@@ -24,6 +26,7 @@
     "xadmin-ui": "3"
   },
   "scripts": {
+    "vite": "vite build --config ../../vite.config.js",
     "build:lib": "babel src --root-mode upward --out-dir lib",
     "build:es": "cross-env BABEL_ENV=es babel src --root-mode upward --out-dir es",
     "build:umd": "rollup -c ../../rollup.config.js",

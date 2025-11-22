@@ -3,7 +3,6 @@ import _ from 'lodash'
 import app, { use } from 'xadmin'
 import { C } from 'xadmin-ui'
 import { _t } from 'xadmin-i18n'
-import { useRecoilCallback, useRecoilValue } from 'recoil'
 
 export default {
   items: {
@@ -57,10 +56,10 @@ export default {
       const { getItems } = use('model.getItems')
       const message = use('message')
       const { canDelete } = use('model.permission')
-      const loading = useRecoilValue(atoms.loading('delete_items'))
+      const loading = use('model.value', 'loading', 'delete_items')
 
-      const onBatchDelete = useRecoilCallback(({ snapshot, set, reset }) => async () => {
-        const items = snapshot.getLoadable(atoms.selected).contents
+      const onBatchDelete = use('model.callback', async (get, set, atoms) => {
+        const items = get(atoms.selected)
 
         set(atoms.loading('delete_items'), true)
         try {
@@ -71,7 +70,7 @@ export default {
           }
 
           // clear selected
-          reset(atoms.selected)
+          set(atoms.selected, [])
 
           // show message
           if(message?.success &&  args?.successMessage !== false) {
@@ -94,14 +93,14 @@ export default {
       return { loading, canDelete, onBatchDelete }
     },
     'actons.batch_change': (args) => {
-      const { model, rest, atoms } = use('model')
+      const { model, rest } = use('model')
       const { getItems } = use('model.getItems')
       const message = use('message')
       const { canEdit } = use('model.permission')
-      const loading = useRecoilValue(atoms.loading('save_items'))
+      const loading = use('model.value', 'loading', 'save_items')
 
-      const onBatchChange = useRecoilCallback(({ snapshot, set }) => async (value) => {
-        const items = snapshot.getLoadable(atoms.selected).contents
+      const onBatchChange = use('model.callback', async (get, set, atoms, value) => {
+        const items = get(atoms.selected)
 
         set(atoms.loading('save_items'), true)
         try {

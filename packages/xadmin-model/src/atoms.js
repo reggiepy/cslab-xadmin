@@ -1,23 +1,16 @@
 import _ from 'lodash'
-import {
-  atom, atomFamily,
-  selector, selectorFamily
-} from 'recoil'
+import { atom } from 'jotai'
+import { atomFamily } from 'jotai/utils'
 
 const modelAtoms = (k, model) => {
   
-  const ids = atom({
-    key: k('ids'), default: []
-  })
+  const ids = atom([])
 
-  const item = atomFamily({
-    key: k('item'), default: {}
-  })
+  const item = atomFamily(() => atom({}))
 
-  const items = selector({
-    key: k('items'),
-    get: ({get}) => get(ids).map(id => get(item(id))).filter(item => !_.isNil(item)),
-    set: ({set}, newItems) => {
+  const items = atom(
+    (get) => get(ids).map(id => get(item(id))).filter(item => !_.isNil(item)),
+    (get, set, newItems) => {
       const newIds = newItems.map(record => {
         if(_.isNil(record.id)) {
           // record without id field should throw warnning.
@@ -27,34 +20,24 @@ const modelAtoms = (k, model) => {
         return record.id
       }).filter(Boolean)
       set(ids, newIds)
-    },
-    cachePolicy_UNSTABLE: { eviction: 'most-recent' }
-  })
+    }
+  )
 
-  const count = atom({
-    key: k('count'), default: 0 
-  })
+  const count = atom(0)
 
-  const selected = atom({
-    key: k('selected'), default: []
-  })
+  const selected = atom([])
 
-  const option = atom({
-    key: k('option'),
-    default: {}
-  })
+  const option = atom({})
 
-  const optionSelector = key => selector({
-    key: k(key),
-    get: ({get}) => get(option)[key],
-    set: ({get, set}, value) => {
+  const optionSelector = (key) => atom(
+    (get) => get(option)[key],
+    (get, set, value) => {
       set(option, {
         ...get(option),
         [key]: value
       })
-    },
-    cachePolicy_UNSTABLE: { eviction: 'lru', maxSize: 1 }
-  })
+    }
+  )
 
   const fields = optionSelector('fields')
 
@@ -64,69 +47,57 @@ const modelAtoms = (k, model) => {
 
   const skip = optionSelector('skip')
 
-  const wheres = atom({
-    key: k('wheres'), default: {}
-  })
+  const wheres = atom({})
 
-  const where = selectorFamily({
-    key: k('where'),
-    get: (id) => ({ get }) => {
+  const where = atomFamily((id) => atom(
+    (get) => {
       return get(wheres)[id]
     },
-    set: (id) => ({ get, set}, where) => {
-      set(wheres, { ..._.omit(get(wheres), id), ...(!_.isEmpty(where) ? { [id]: where } : {}) })
+    (get, set, whereValue) => {
+      set(wheres, { ..._.omit(get(wheres), id), ...(!_.isEmpty(whereValue) ? { [id]: whereValue } : {}) })
       set(skip, 0)
-    },
-    cachePolicy_UNSTABLE: { eviction: 'lru', maxSize: 1 }
-  })
+    }
+  ))
 
-  const loading = atomFamily({
-    key: k('loading'), default: false
-  })
+  const loading = atomFamily(() => atom(false))
 
-  const itemSelected = selectorFamily({
-    key: k('itemSelected'),
-    get: (id) => ({ get }) => {
+  const itemSelected = atomFamily((id) => atom(
+    (get) => {
       return get(selected).find(item => item.id == id) !== undefined
     },
-    set: (id) => ({ get, set}, isSelect) => {
+    (get, set, isSelect) => {
       const selectedItems = get(selected).filter(i => { return i.id !== id })
       if (isSelect) {
         selectedItems.push(get(item(id)))
       }
       set(selected, selectedItems)
-    },
-    cachePolicy_UNSTABLE: { eviction: 'lru', maxSize: 1 }
-  })
+    }
+  ))
 
-  const allSelected = selector({
-    key: k('allSelected'),
-    get: ({ get }) => {
+  const allSelected = atom(
+    (get) => {
       const selects = get(selected).map(item => item.id)
       return _.every(get(ids), id => selects.indexOf(id) >= 0)
     },
-    set: ({ get, set}, selectAll) => {
+    (get, set, selectAll) => {
       if(selectAll) {
         set(selected, _.unionWith(get(selected), get(items), (a, b) => a.id == b.id))
       } else {
         set(selected, _.differenceWith(get(selected), get(items), (a, b) => a.id == b.id))
       }
-    },
-    cachePolicy_UNSTABLE: { eviction: 'lru', maxSize: 1 }
-  })
+    }
+  )
 
-  const itemOrder = selectorFamily({
-    key: k('itemOrder'),
-    get: (field) => ({ get }) => {
+  const itemOrder = atomFamily((field) => atom(
+    (get) => {
       const orders = get(order)
       return orders !== undefined ? (orders[field] || '') : ''
     },
-    set: (field) => ({get, set}, newOrder) => {
+    (get, set, newOrder) => {
       const orders = get(order)
       set(order, { ...orders, [field]: newOrder })
-    },
-    cachePolicy_UNSTABLE: { eviction: 'lru', maxSize: 1 }
-  })
+    }
+  ))
   
   return {
     ids, item, items, selected, count, option, optionSelector, fields, order, limit, skip, wheres, where, loading, itemSelected, allSelected, itemOrder

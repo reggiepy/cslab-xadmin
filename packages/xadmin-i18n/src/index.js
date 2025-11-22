@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import moment from 'moment'
 import i18next from 'i18next'
-import XHR from 'i18next-xhr-backend'
+import HttpApi from 'i18next-http-backend'
 import Cache from 'i18next-localstorage-cache'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import app from 'xadmin'
@@ -30,7 +30,7 @@ export default {
       resources[ln] = _.merge({}, ...resources[ln])
     }
     i18next
-      .use(XHR) // or any other backend implementation
+      .use(HttpApi) // or any other backend implementation
       .use(Cache) // or any other cache implementation
       .use(LanguageDetector) // or any other implementation
       .init({

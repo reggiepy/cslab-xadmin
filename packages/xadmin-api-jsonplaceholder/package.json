@@ -2,8 +2,9 @@
   "name": "xadmin-api-jsonplaceholder",
   "version": "2.2.0",
   "description": "Xadmin API for jsonplaceholder",
-  "main": "lib/index.js",
-  "module": "es/index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "unpkg": "dist/index.umd.js",
   "author": "sshwsfc@gmail.com",
   "license": "MIT",
   "dependencies": {
@@ -13,6 +14,7 @@
     "xadmin": "3"
   },
   "scripts": {
+    "vite": "vite build --config ../../vite.config.js",
     "build:lib": "babel src --root-mode upward --out-dir lib",
     "build:es": "cross-env BABEL_ENV=es babel src --root-mode upward --out-dir es",
     "clean": "rm -rf lib es dist",

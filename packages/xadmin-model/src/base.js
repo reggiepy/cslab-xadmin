@@ -3,7 +3,6 @@ import _ from 'lodash'
 import { Block, app, use } from 'xadmin'
 import { C } from 'xadmin-ui'
 import { Routes, Route } from "react-router-dom"
-import { RecoilRoot, useRecoilSnapshot, useRecoilCallback } from 'recoil'
 import modelAtoms from './atoms'
 
 const ModelContext = React.createContext(null)
@@ -21,24 +20,11 @@ const getModel = (name, key, props) => {
   }
 }
 
-const DebugObserver = () => {
-  let snapshot = useRecoilSnapshot();
-  React.useEffect(() => {
-    if(! snapshot ) return 
-    console.debug('[Recoil] state change:');
-    for (const node of snapshot.getNodes_UNSTABLE({isModified: true})) {
-      console.debug(node.key, snapshot.getLoadable(node));
-    }
-  }, [snapshot]);
-  
-  return null;
-}
-
 const ModelInitial = ({ model, initialValues, children }) => {
   const query = use('query')
   const [ loading, setLoading ] = React.useState(true)
 
-  const initializeState = useRecoilCallback(({ set }) => () => {
+  const initializeState = use('model.callback', ((get, set, atoms) => {
     let initial = initialValues || {}
     if(model.initialValues) {
       let modelInitial = _.isFunction(model.initialValues) ? model.initialValues() : model.initialValues
@@ -64,9 +50,9 @@ const ModelInitial = ({ model, initialValues, children }) => {
       }
     }
     
-    set(model.atoms.option, { ...defaultOpt, ...option })
-    set(model.atoms.wheres, wheres)
-  }, [ initialValues, model, query ])
+    set(atoms.option, { ...defaultOpt, ...option })
+    set(atoms.wheres, wheres)
+  }), [ initialValues, model, query ])
 
   React.useEffect(() => {
     initializeState()
@@ -112,14 +98,11 @@ const Model = ({ name, schema, modelKey, initialValues, children, debug, props: 
   // }, [ initialValues, model, query ])
 
   return model && (
-    <RecoilRoot override={false}>
-      { (model.debug || debug) && <DebugObserver /> }
-      <ModelContext.Provider value={model}>
-        <ModelInitial initialValues={initialValues} model={model} >
-          {children}
-        </ModelInitial>
-      </ModelContext.Provider>
-    </RecoilRoot>
+    <ModelContext.Provider value={model}>
+      <ModelInitial initialValues={initialValues} model={model} >
+        {children}
+      </ModelInitial>
+    </ModelContext.Provider>
   )
 }
 

@@ -2,13 +2,15 @@
   "name": "xadmin-xui",
   "version": "3.0.3",
   "description": "Xadmin XUI",
-  "main": "lib/index.js",
-  "module": "es/index.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "unpkg": "dist/index.umd.js",
   "author": "sshwsfc@gmail.com",
   "license": "MIT",
   "dependencies": {},
   "peerDependencies": {
     "react": ">=17",
+    "react/jsx-runtime": ">=17",
     "lodash": "4",
     "moment": "2",
     "react-router": "6",
@@ -23,6 +25,7 @@
     "xui": "1"
   },
   "scripts": {
+    "vite": "vite build --config ../../vite.config.js",
     "build:lib": "babel src --extensions \".js,.jsx,.ts,.tsx\" --root-mode upward --out-dir lib",
     "build:es": "cross-env BABEL_ENV=es babel src --extensions \".js,.jsx,.ts,.tsx\" --root-mode upward --out-dir es",
     "build:umd": "USE_TS=true rollup -c ../../rollup.config.js",

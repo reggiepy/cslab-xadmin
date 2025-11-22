@@ -5,12 +5,10 @@ import { _t } from 'xadmin-i18n'
 import { getFieldProp } from './utils'
 import { ModelContext } from './base'
 
-import {
-  useRecoilState,
-  useRecoilValue, useSetRecoilState, useRecoilCallback
-} from 'recoil'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { useAtomCallback } from 'jotai/utils'
 
-const useModelRecoilAtom = (atom, fkey) => {
+const useModelAtom = (atom, fkey) => {
   const model = useContext(ModelContext)
   if(!model) {
     throw Error('Need Model Context when use model hooks.')
@@ -31,20 +29,21 @@ const useModelRecoilAtom = (atom, fkey) => {
 }
 
 const useModelValue = (atom, fkey) => {
-  return useRecoilValue(useModelRecoilAtom(atom, fkey))
+  return useAtomValue(useModelAtom(atom, fkey))
 }
 const useModelState = (atom, fkey) => {
-  return useRecoilState(useModelRecoilAtom(atom, fkey))
+  return useAtom(useModelAtom(atom, fkey))
 }
 const useSetModelState = (atom, fkey) => {
-  return useSetRecoilState(useModelRecoilAtom(atom, fkey))
+  return useSetAtom(useModelAtom(atom, fkey))
 }
 const useModelCallback = (cb, deps) => {
   const { model, atoms } = use('model')
-  return useRecoilCallback(proxy => {
-    proxy.atoms = atoms
-    return cb(proxy)
-  }, [ ...deps, model ])
+  return useAtomCallback(
+    useCallback((get, set, ...args) => {
+      return cb(get, set, atoms, ...args)
+    }, [ ...deps, model ])
+  )
 }
 
 export default {
@@ -101,7 +100,7 @@ export default {
     const message = use('message')
     const successMessage = props?.successMessage
 
-    const saveItem = useModelCallback(({ snapshot, set, atoms }) => async (item, partial) => {
+    const saveItem = useModelCallback(async (get, set, atoms, item, partial) => {
       set(atoms.loading('save'), true)
       try {
         if(model.partialSave || item['__partial__']) {
@@ -111,13 +110,13 @@ export default {
         const id = data.id || item.id
         let newData = data || item
         if(partial) {
-          const oldItem = snapshot.getLoadable(atoms.item(id)).contents
+          const oldItem = get(atoms.item(id))
           newData = { ...oldItem, ...newData }
         }
         set(atoms.item(id), newData)
         
         // change selected item
-        const selected = snapshot.getLoadable(atoms.selected).contents
+        const selected = get(atoms.selected)
         set(atoms.selected, selected.map(i => i.id !== id ? i : newData))
 
         if( message?.success && successMessage !== false) {
@@ -146,11 +145,11 @@ export default {
     const deleteMessage = props?.deleteMessage
     const itemId = props?.id
 
-    const deleteItem = useModelCallback(({ snapshot, set, atoms }) => async (id) => {
+    const deleteItem = useModelCallback(async (get, set, atoms, id) => {
       id = id || itemId
       await rest.delete(id)
       // unselect
-      const selected = snapshot.getLoadable(atoms.selected).contents
+      const selected = get(atoms.selected)
       set(atoms.selected, selected.filter(i => { return i.id !== id }))
       message?.success && message.success(deleteMessage || _t('Delete {{object}} success', { object: model.title || model.name }))
       // getItems
@@ -163,10 +162,10 @@ export default {
   'model.getItems': () => {
     const { model, rest } = use('model')
 
-    const getItems = useModelCallback(({ snapshot: ss, set, reset, atoms }) => async (query) => {
+    const getItems = useModelCallback(async ( get, set, atoms, query ) => {
       let { wheres: newWheres, ...newOption } = query || {}
-      const wheres = newWheres || ss.getLoadable(atoms.wheres).contents
-      const option = { ...ss.getLoadable(atoms.option).contents, ...newOption }
+      const wheres = newWheres || get(atoms.wheres)
+      const option = { ...get(atoms.option), ...newOption }
       
       set(atoms.loading('items'), true)
       try {
@@ -182,8 +181,8 @@ export default {
       } catch (error) {
         app.error(error)
 
-        reset(atoms.ids)
-        reset(atoms.count)
+        set(atoms.ids, [])
+        set(atoms.count, 0)
 
         throw error
       } finally {
@@ -336,7 +335,7 @@ export default {
     const selected = useModelValue('selected')
     const [isSelectedAll, onSelectAll] = useModelState('allSelected')
 
-    const onSelect = useModelCallback(({ set, atoms }) => (item, isSelect) => {
+    const onSelect = useModelCallback((get, set, atoms, item, isSelect) => {
       set(atoms.itemSelected(item.id), isSelect)
     }, [ ])
 
