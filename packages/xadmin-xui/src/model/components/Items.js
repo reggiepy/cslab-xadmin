@@ -338,7 +338,7 @@ const ActionDelete = props => {
     return (
       <Popconfirm title={_t('Comfirm Delete') + '?'} onConfirm={()=>deleteItem()} okText={_t('Delete')} cancelText={_t('Cancel')}>
         <Tooltip key="action-delete" title={_t('Delete')}>
-          <Button size="xs" variant="ghost" className="text-red" onClick={() => onEdit(props.id)}>
+          <Button size="xs" variant="ghost" className="text-red">
             <Trash />
           </Button>
         </Tooltip>

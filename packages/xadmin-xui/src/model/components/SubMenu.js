@@ -26,7 +26,7 @@ const PageSizeButton = () => {
 
   const onSetPageSize = (size) => {
     setPageSize(size)
-    setVisible(false)
+    setOpen(false)
   }
 
   const onInputSize = (e) => {
