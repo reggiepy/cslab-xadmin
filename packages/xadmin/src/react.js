@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createRoot } from 'react-dom/client'
 import _ from 'lodash'
 import { Routes, BrowserRouter, HashRouter, Route, Outlet, useRoutes, useNavigate, useHref, useLocation, useMatch, useParams, useOutlet, useSearchParams } from "react-router-dom"
 
@@ -85,8 +84,8 @@ const react_app = {
       </RootRouter> 
     ) : <span>Please config routers or Main component.</span>)
 
-    if(createRoot) {
-      createRoot(container).render(root)
+    if(ReactDOM.createRoot) {
+      ReactDOM.createRoot(container).render(root)
     } else {
       ReactDOM.render(root, container)
     }

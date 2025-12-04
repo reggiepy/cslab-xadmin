@@ -4,7 +4,7 @@ import i18next from 'i18next'
 import HttpApi from 'i18next-http-backend'
 import Cache from 'i18next-localstorage-cache'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import app from 'xadmin'
+import {app} from 'xadmin'
 
 import zh_Hans from './zh_Hans/translation.json'
 

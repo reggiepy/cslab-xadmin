@@ -37,7 +37,7 @@ const useModelState = (atom, fkey) => {
 const useSetModelState = (atom, fkey) => {
   return useSetAtom(useModelAtom(atom, fkey))
 }
-const useModelCallback = (cb, deps) => {
+const useModelCallback = (cb, deps=[]) => {
   const { model, atoms } = use('model')
   return useAtomCallback(
     useCallback((get, set, ...args) => {

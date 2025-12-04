@@ -4,8 +4,11 @@ import { Block, app, use } from 'xadmin'
 import { C } from 'xadmin-ui'
 import { Routes, Route } from "react-router-dom"
 import modelAtoms from './atoms'
+import { useAtomCallback } from 'jotai/utils'
 
 const ModelContext = React.createContext(null)
+
+const modelAtomsMap = {}
 
 const getModel = (name, key, props) => {
   const model = app.get('models')[name]
@@ -24,7 +27,7 @@ const ModelInitial = ({ model, initialValues, children }) => {
   const query = use('query')
   const [ loading, setLoading ] = React.useState(true)
 
-  const initializeState = use('model.callback', ((get, set, atoms) => {
+  const initializeState = useAtomCallback(React.useCallback((get, set) => {
     let initial = initialValues || {}
     if(model.initialValues) {
       let modelInitial = _.isFunction(model.initialValues) ? model.initialValues() : model.initialValues
@@ -50,9 +53,9 @@ const ModelInitial = ({ model, initialValues, children }) => {
       }
     }
     
-    set(atoms.option, { ...defaultOpt, ...option })
-    set(atoms.wheres, wheres)
-  }), [ initialValues, model, query ])
+    set(model.atoms.option, { ...defaultOpt, ...option })
+    set(model.atoms.wheres, wheres)
+  }, [initialValues, model, query]))
 
   React.useEffect(() => {
     initializeState()
@@ -62,40 +65,30 @@ const ModelInitial = ({ model, initialValues, children }) => {
   return !loading ? children : null
 }
 
-const Model = ({ name, schema, modelKey, initialValues, children, debug, props: modelProps }) => {
+const Model = ({ name, schema, modelKey, initialValues, children, atoms: outterAtoms, forceNewAtoms, props: modelProps }) => {
   const model = React.useMemo(() => {
     const model =  name ? getModel(name, modelKey, modelProps) : {
       ...schema,
       key: modelKey || schema.name,
       ...modelProps
     }
-    const atoms = [ modelAtoms, ...app.get('modelAtoms') ].reduce((p, getAtoms) => {
-      return { ...p, ...getAtoms(id => `model.${model.key}.${id}`, model)}
-    }, {})
+    let atoms
+    if(outterAtoms) {
+      atoms = outterAtoms
+    } else if(forceNewAtoms){
+      atoms = [ modelAtoms, ...app.get('modelAtoms') ].reduce((p, getAtoms) => {
+        return { ...p, ...getAtoms(id => `model.${model.key}.${id}`, model)}
+      }, {})
+    } else {
+      if(!modelAtomsMap[model.key]) {
+        modelAtomsMap[model.key] = [ modelAtoms, ...app.get('modelAtoms') ].reduce((p, getAtoms) => {
+          return { ...p, ...getAtoms(id => `model.${model.key}.${id}`, model)}
+        }, {})
+      }
+      atoms = modelAtomsMap[model.key]
+    }
     return { ...model, atoms }
-  }, [ name, schema, modelKey ])
-
-  // const initializeState = React.useCallback(({ set }) => {
-  //   let initial = initialValues || {}
-  //   if(model.initialValues) {
-  //     let modelInitial = _.isFunction(model.initialValues) ? model.initialValues() : model.initialValues
-  //     initial = { ...modelInitial, ...initial }
-  //   }
-  //   const { wheres={}, ...option } = initial
-
-  //   const defaultOpt = {
-  //     fields: [ ...(model.listFields || []) ],
-  //     order: model.defaultOrder || model.orders || {},
-  //     limit: model.defaultPageSize || 15,
-  //     skip: 0
-  //   }
-  //   if(query && !_.isEmpty(query)) {
-  //     wheres.param_filter = query
-  //   }
-    
-  //   set(model.atoms.option, { ...defaultOpt, ...option })
-  //   set(model.atoms.wheres, wheres)
-  // }, [ initialValues, model, query ])
+  }, [ name, schema, modelKey, outterAtoms ])
 
   return model && (
     <ModelContext.Provider value={model}>
