@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import commonjs  from 'vite-plugin-commonjs'
 import jsInJsxPlugin from './js-in-jsx.js'
 import { resolve } from 'path';
 import fs from 'fs';
@@ -11,10 +12,6 @@ const appName = pkg.name
 const pkgName = appName.replace(/-(\w)/g, function(all, letter){
   return letter.toUpperCase();
  });
-// Get the USE_TS environment variable, default to false if not set
-const useTypescript = process.env.USE_TS === 'true';
-
-const extensions = useTypescript ? ['.js', '.jsx', '.ts', '.tsx'] : ['.js', '.jsx'];
 
 const makeExternalPredicate = (externalArr) => {
   if (externalArr.length === 0) {
@@ -30,6 +27,7 @@ const globals = {
   react: 'React',
   redux: 'Redux',
   'react-dom': 'ReactDOM',
+  'react-dom/client': 'ReactDOMClient',
   'react-router': 'ReactRouter',
   'react-router-dom': 'ReactRouterDOM',
   "recoil": "Recoil",
@@ -50,7 +48,10 @@ const globals = {
 export default defineConfig({
   plugins: [react({
     jsxRuntime: 'classic'
-  }), jsInJsxPlugin()],
+  }), 
+  commonjs({
+    requireReturnsDefault: 'preferred'
+  }), jsInJsxPlugin()], 
   resolve: {
     // 配置路径别名
     alias: {

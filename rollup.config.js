@@ -58,6 +58,8 @@ const globals = {
   "recoil": "Recoil",
   'react-redux': 'ReactRedux',
   'redux-saga': 'ReduxSaga',
+  'jotai': 'jotai',
+  'jotai/utils': 'jotaiUtils',
   'lodash': '_',
   "moment": "moment",
   'xadmin': 'xadmin',
@@ -72,7 +74,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: `dist/${appName}.js`,
+      file: `dist/index.umd.dev.js`,
       format: 'umd',
       name: pkgName,
       indent: false,
@@ -108,7 +110,7 @@ export default [
   {
     input: 'src/index.js',
     output: {
-      file: `dist/${appName}.min.js`,
+      file: `dist/index.umd.js`,
       format: 'umd',
       name: pkgName,
       indent: false,
