@@ -8,11 +8,11 @@ It is fully extensible with plugin support and features a pretty UI based on Twi
 Key Features
 ------------
 
--  **Django 3.0+ Ready**: Fully compatible with Django 3.0 and 3.2 LTS.
--  **Modern Python**: Optimized for Python 3.6 - 3.10.
--  **Built-in Plugins**: Includes export, import, charts, dashboard, and more.
--  **Bootstrap 3**: Clean and responsive user interface based on Twitter Bootstrap with theme support.
--  **Better UX**: Enhanced filters, date ranges, number ranges, and in-site bookmarking.
+- **Django 3.0+ Ready**: Fully compatible with Django 3.0 and 3.2 LTS.
+- **Modern Python**: Optimized for Python 3.6 - 3.10.
+- **Built-in Plugins**: Includes export, import, charts, dashboard, and more.
+- **Bootstrap 3**: Clean and responsive user interface based on Twitter Bootstrap with theme support.
+- **Better UX**: Enhanced filters, date ranges, number ranges, and in-site bookmarking.
 
 Quick Start
 -----------
@@ -22,25 +22,25 @@ Install
 
 Installation via PyPI:
 
-.. code:: bash
+.. code-block:: bash
 
     pip install cslab-xadmin
 
 Or install from source:
 
-.. code:: bash
+.. code-block:: bash
 
     pip install git+https://github.com/reggiepy/cslab-xadmin.git
 
 Install Requires 
 ----------------
 
--  `django`_ >=3.0, <4.0
--  `django-crispy-forms`_ >=1.12.0
--  `django-import-export`_ >=2.5.0
--  `django-reversion`_ >=3.0.0
--  `django-formtools`_ >=2.3
--  `six`_
+- `django`_ >=3.0, <4.0
+- `django-crispy-forms`_ >=1.12.0
+- `django-import-export`_ >=2.5.0
+- `django-reversion`_ >=3.0.0
+- `django-formtools`_ >=2.3
+- `six`_
 
 .. _django: http://djangoproject.com
 .. _django-crispy-forms: http://django-crispy-forms.rtfd.org
@@ -76,7 +76,7 @@ And replace the default ``admin.site.urls`` in your ``urls.py``::
 Run Demo Locally
 ----------------
 
-.. code:: bash
+.. code-block:: bash
 
     cd demo_app
     python manage.py migrate

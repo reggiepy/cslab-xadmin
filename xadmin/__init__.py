@@ -1,5 +1,5 @@
 
-VERSION = (3, 0, 0)
+VERSION = (3, 0, 1)
 
 from xadmin.sites import AdminSite, site
 
