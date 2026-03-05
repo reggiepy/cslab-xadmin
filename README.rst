@@ -1,135 +1,77 @@
-Xadmin |Build Status|
+cslab-xadmin (OBR CSLAB Django 3 Fork)
 ============================================
 
-.. |Build Status| image:: https://travis-ci.org/sshwsfc/xadmin.png?branch=master
-   :target: https://travis-ci.org/sshwsfc/xadmin
+**cslab-xadmin** is a drop-in replacement of Django admin for **Django 3.0/3.2**, maintained by the OBR CSLAB team.
 
-Drop-in replacement of Django admin comes with lots of goodies, fully extensible with plugin support, pretty UI based on Twitter Bootstrap.
+It is fully extensible with plugin support and features a pretty UI based on Twitter Bootstrap 3.
 
-Live Demo
----------
+Key Features
+------------
 
-http://demo.xadmin.io
+-  **Django 3.0+ Ready**: Fully compatible with Django 3.0 and 3.2 LTS.
+-  **Modern Python**: Optimized for Python 3.6 - 3.10.
+-  **Built-in Plugins**: Includes export, import, charts, dashboard, and more.
+-  **Bootstrap 3**: Clean and responsive user interface based on Twitter Bootstrap with theme support.
+-  **Better UX**: Enhanced filters, date ranges, number ranges, and in-site bookmarking.
 
--  User: admin
--  Password: admin
-
-Features
---------
-
--  Drop-in replacement of Django admin
--  Twitter Bootstrap based UI with theme support
--  Extensible with plugin support
--  Better filter, date range, number range, etc.
--  Built-in data export with xls, csv, xml and json format
--  Dashboard page with widget support
--  In-site bookmarking
--  Full CRUD methods
-
-Screenshots
------------
-
-.. figure:: https://raw.github.com/sshwsfc/django-xadmin/docs-chinese/docs/images/plugins/action.png
-   :alt: Actions
-   
-.. figure:: https://raw.github.com/sshwsfc/django-xadmin/docs-chinese/docs/images/plugins/filter.png
-   :alt: Filter
-
-.. figure:: https://raw.github.com/sshwsfc/django-xadmin/docs-chinese/docs/images/plugins/chart.png
-   :alt: Chart
-
-.. figure:: https://raw.github.com/sshwsfc/django-xadmin/docs-chinese/docs/images/plugins/export.png
-   :alt: Export Data
-
-.. figure:: https://raw.github.com/sshwsfc/django-xadmin/docs-chinese/docs/images/plugins/editable.png
-   :alt: Edit inline
-
-Get Started
+Quick Start
 -----------
 
 Install
 ^^^^^^^
 
-Xadmin is best installed via PyPI. To install the latest version, run:
+Installation via PyPI:
 
 .. code:: bash
 
-    pip install xadmin
+    pip install cslab-xadmin
 
-or Install from github source:
-
-.. code:: bash
-
-    pip install git+git://github.com/sshwsfc/xadmin.git
-
-Install from github source for Django 2.0:
+Or install from source:
 
 .. code:: bash
 
-    pip install https://codeload.github.com/sshwsfc/xadmin/zip/django2
+    pip install git+https://github.com/reggiepy/cslab-xadmin.git
 
 Install Requires 
 ----------------
 
--  `django`_ >=2
-
--  `django-crispy-forms`_ >=1.6.0 (For xadmin crispy forms)
-
--  `django-reversion`_ ([OPTION] For object history and reversion feature, please select right version by your django, see `changelog`_ )
-
--  `django-formtools`_ ([OPTION] For wizward form)
-
--  `xlwt`_ ([OPTION] For export xls files)
-
--  `xlsxwriter`_ ([OPTION] For export xlsx files)
+-  `django`_ >=3.0, <4.0
+-  `django-crispy-forms`_ >=1.12.0
+-  `django-import-export`_ >=2.5.0
+-  `django-reversion`_ >=3.0.0
+-  `django-formtools`_ >=2.3
+-  `six`_
 
 .. _django: http://djangoproject.com
 .. _django-crispy-forms: http://django-crispy-forms.rtfd.org
 .. _django-reversion: https://github.com/etianen/django-reversion
-.. _changelog: https://github.com/etianen/django-reversion/blob/master/CHANGELOG.rst
+.. _django-import-export: https://github.com/django-import-export/django-import-export
 .. _django-formtools: https://github.com/django/django-formtools
-.. _xlwt: http://www.python-excel.org/
-.. _xlsxwriter: https://github.com/jmcnamara/XlsxWriter
+.. _six: https://github.com/benjaminp/six
 
-Documentation
--------------
+Usage
+-----
 
--  English (coming soon)
--  `Chinese`_
+Add ``xadmin`` and ``crispy_forms`` to your ``INSTALLED_APPS``::
 
-.. _Chinese: https://xadmin.readthedocs.org/en/latest/index.html
+    INSTALLED_APPS = (
+        ...
+        'xadmin',
+        'crispy_forms',
+        'reversion', # optional
+    )
 
-Changelogs
--------------
+And replace the default ``admin.site.urls`` in your ``urls.py``::
 
-0.6.0
-^^^^^
-- Compact with Django1.9.
-- Add Clock Picker widget for timepicker.
-- Fixed some userface errors.
+    import xadmin
+    xadmin.autodiscover()
 
-0.5.0
-^^^^^
-    
-- Update fontawesome to 4.0.3
-- Update javascript files to compact fa icons new version
-- Update tests for the new instance method of the AdminSite class
-- Added demo graphs
-- Added quickfilter plugin.
-- Adding apps_icons with same logic of apps_label_title.
-- Add xlsxwriter for big data export.
-- Upgrade reversion models admin list page.
-- Fixed reverse many 2 many lookup giving FieldDoesNotExist error.
-- Fixed user permission check in inline model.
+    from xadmin.plugins import xversion
+    xversion.register_models()
 
-`Detail`_
-
-.. _Detail: ./changelog.md
-
-Online Group
-------------
-
--  QQ群 : 282936295
+    urlpatterns = [
+        path(r'xadmin/', xadmin.site.urls),
+    ]
 
 Run Demo Locally
 ----------------
@@ -137,13 +79,12 @@ Run Demo Locally
 .. code:: bash
 
     cd demo_app
-    ./manage.py migrate
-    ./manage.py runserver
+    python manage.py migrate
+    python manage.py runserver
 
-Open http://127.0.0.1:8000 in your browser, the admin user password is ``admin``
+Open http://127.0.0.1:8000 in your browser, the admin user password is ``admin``.
 
-Help
-----
+License
+-------
 
-Help Translate : http://trans.xadmin.io
-
+BSD License. See the LICENSE file for details.

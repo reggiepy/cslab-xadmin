@@ -5,12 +5,13 @@ from django.db.models.sql.query import LOOKUP_SEP
 from django.db.models.deletion import Collector
 from django.db.models.fields.related import ForeignObjectRel
 from django.forms.forms import pretty_name
-from django.utils import formats, six
+from django.utils import formats
+import six
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.text import capfirst
-from django.utils.encoding import force_text, smart_text, smart_str
-from django.utils.translation import ungettext
+from django.utils.encoding import force_str, smart_str
+from django.utils.translation import ngettext
 from django.urls.base import reverse
 from django.conf import settings
 from django.forms import Media
@@ -21,7 +22,8 @@ import datetime
 import decimal
 
 if 'django.contrib.staticfiles' in settings.INSTALLED_APPS:
-    from django.contrib.staticfiles.templatetags.staticfiles import static
+    from django.templatetags.static import static
+    # from django.contrib.staticfiles.templatetags.staticfiles import static
 else:
     from django.templatetags.static import static
 
@@ -243,8 +245,8 @@ def model_format_dict(obj):
     else:
         opts = obj
     return {
-        'verbose_name': force_text(opts.verbose_name),
-        'verbose_name_plural': force_text(opts.verbose_name_plural)
+        'verbose_name': force_str(opts.verbose_name),
+        'verbose_name_plural': force_str(opts.verbose_name_plural)
     }
 
 
@@ -264,7 +266,7 @@ def model_ngettext(obj, n=None):
         obj = obj.model
     d = model_format_dict(obj)
     singular, plural = d["verbose_name"], d["verbose_name_plural"]
-    return ungettext(singular, plural, n or 0)
+    return ngettext(singular, plural, n or 0)
 
 
 def is_rel_field(name, model):
@@ -340,9 +342,9 @@ def display_for_field(value, field):
     elif isinstance(field, models.FloatField):
         return formats.number_format(value)
     elif isinstance(field.remote_field, models.ManyToManyRel):
-        return ', '.join([smart_text(obj) for obj in value.all()])
+        return ', '.join([smart_str(obj) for obj in value.all()])
     else:
-        return smart_text(value)
+        return smart_str(value)
 
 
 def display_for_value(value, boolean=False):
@@ -359,7 +361,7 @@ def display_for_value(value, boolean=False):
     elif isinstance(value, (decimal.Decimal, float)):
         return formats.number_format(value)
     else:
-        return smart_text(value)
+        return smart_str(value)
 
 
 class NotRelationField(Exception):

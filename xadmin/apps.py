@@ -1,12 +1,13 @@
 from django.apps import AppConfig
 from django.core import checks
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 import xadmin
 
 
 class XAdminConfig(AppConfig):
     """Simple AppConfig which does not do automatic discovery."""
 
+    default_auto_field = 'django.db.models.AutoField'
     name = 'xadmin'
     verbose_name = _("Administration")
 

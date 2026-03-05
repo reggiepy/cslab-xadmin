@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.views import LoginView as login

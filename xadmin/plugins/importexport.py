@@ -45,7 +45,13 @@ from xadmin.sites import site
 from xadmin.views import BaseAdminPlugin, ListAdminView, ModelAdminView
 from xadmin.views.base import csrf_protect_m, filter_hook
 from django.db import transaction
-from import_export.admin import DEFAULT_FORMATS, SKIP_ADMIN_LOG, TMP_STORAGE_CLASS
+try:
+    from import_export.admin import DEFAULT_FORMATS, SKIP_ADMIN_LOG, TMP_STORAGE_CLASS
+except ImportError:
+    from import_export.admin import DEFAULT_FORMATS
+    SKIP_ADMIN_LOG = False
+    TMP_STORAGE_CLASS = None
+
 from import_export.resources import modelresource_factory
 from import_export.forms import (
     ImportForm,
@@ -55,10 +61,10 @@ from import_export.forms import (
 from import_export.results import RowResult
 from import_export.signals import post_export, post_import
 try:
-    from django.utils.encoding import force_text
+    from django.utils.encoding import force_str
 except ImportError:
-    from django.utils.encoding import force_unicode as force_text
-from django.utils.translation import ugettext_lazy as _
+    from django.utils.encoding import force_unicode as force_str
+from django.utils.translation import gettext_lazy as _
 from django.template.response import TemplateResponse
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE, DELETION
 from django.contrib.contenttypes.models import ContentType
@@ -223,7 +229,7 @@ class ImportView(ImportBaseView):
             try:
                 data = tmp_storage.read(input_format.get_read_mode())
                 if not input_format.is_binary() and self.from_encoding:
-                    data = force_text(data, self.from_encoding)
+                    data = force_str(data, self.from_encoding)
                 dataset = input_format.create_dataset(data)
             except UnicodeDecodeError as e:
                 return HttpResponse(_(u"<h1>Imported file has a wrong encoding: %s</h1>" % e))
@@ -275,7 +281,7 @@ class ImportProcessView(ImportBaseView):
             tmp_storage = self.get_tmp_storage_class()(name=confirm_form.cleaned_data['import_file_name'])
             data = tmp_storage.read(input_format.get_read_mode())
             if not input_format.is_binary() and self.from_encoding:
-                data = force_text(data, self.from_encoding)
+                data = force_str(data, self.from_encoding)
             dataset = input_format.create_dataset(data)
 
             result = resource.import_data(dataset, dry_run=False,
