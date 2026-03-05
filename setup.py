@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='cslab-xadmin',
-    version='3.0.5',
+    version='3.0.6',
     description='Optimized xadmin fork for Django 3.0, maintained by OBR CSLAB team.',
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
