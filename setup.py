@@ -1,12 +1,10 @@
 #!/usr/bin/env python
 from io import open
 from setuptools import setup
-# version_tuple = __import__('xadmin').VERSION
-# version = ".".join([str(v) for v in version_tuple])
 
 setup(
     name='cslab-xadmin',
-    version='3.0.4',
+    version='3.0.5',
     description='Optimized xadmin fork for Django 3.0, maintained by OBR CSLAB team.',
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',

@@ -18,15 +18,15 @@ It is fully extensible with plugin support and features a pretty UI based on Twi
 
 Installation via PyPI:
 
-\\\ash
+```bash
 pip install cslab-xadmin
-\\\
+```
 
 Or install from source:
 
-\\\ash
+```bash
 pip install git+https://github.com/reggiepy/cslab-xadmin.git
-\\\
+```
 
 ### Install Requires
 
@@ -39,20 +39,20 @@ pip install git+https://github.com/reggiepy/cslab-xadmin.git
 
 ## Usage
 
-Add \xadmin\ and \crispy_forms\ to your \INSTALLED_APPS\:
+Add `xadmin` and `crispy_forms` to your `INSTALLED_APPS`:
 
-\\\python
+```python
 INSTALLED_APPS = (
     ...
     'xadmin',
     'crispy_forms',
     'reversion', # optional
 )
-\\\
+```
 
-And replace the default \dmin.site.urls\ in your \urls.py\:
+And replace the default `admin.site.urls` in your `urls.py`:
 
-\\\python
+```python
 import xadmin
 xadmin.autodiscover()
 
@@ -62,17 +62,17 @@ xversion.register_models()
 urlpatterns = [
     path(r'xadmin/', xadmin.site.urls),
 ]
-\\\
+```
 
 ## Run Demo Locally
 
-\\\ash
+```bash
 cd demo_app
 python manage.py migrate
 python manage.py runserver
-\\\
+```
 
-Open http://127.0.0.1:8000 in your browser, the admin user password is \dmin\.
+Open http://127.0.0.1:8000 in your browser, the admin user password is `admin`.
 
 ## License
 
