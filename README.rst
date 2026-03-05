@@ -20,34 +20,23 @@ Quick Start
 Install
 ^^^^^^^
 
-Installation via PyPI:
-
-.. code-block:: bash
+Installation via PyPI::
 
     pip install cslab-xadmin
 
-Or install from source:
-
-.. code-block:: bash
+Or install from source::
 
     pip install git+https://github.com/reggiepy/cslab-xadmin.git
 
 Install Requires 
 ----------------
 
-- `django`_ >=3.0, <4.0
-- `django-crispy-forms`_ >=1.12.0
-- `django-import-export`_ >=2.5.0
-- `django-reversion`_ >=3.0.0
-- `django-formtools`_ >=2.3
-- `six`_
-
-.. _django: http://djangoproject.com
-.. _django-crispy-forms: http://django-crispy-forms.rtfd.org
-.. _django-reversion: https://github.com/etianen/django-reversion
-.. _django-import-export: https://github.com/django-import-export/django-import-export
-.. _django-formtools: https://github.com/django/django-formtools
-.. _six: https://github.com/benjaminp/six
+- `django <http://djangoproject.com>`_ >=3.0, <4.0
+- `django-crispy-forms <http://django-crispy-forms.rtfd.org>`_ >=1.12.0
+- `django-import-export <https://github.com/django-import-export/django-import-export>`_ >=2.5.0
+- `django-reversion <https://github.com/etianen/django-reversion>`_ >=3.0.0
+- `django-formtools <https://github.com/django/django-formtools>`_ >=2.3
+- `six <https://github.com/benjaminp/six>`_
 
 Usage
 -----
@@ -76,7 +65,7 @@ And replace the default ``admin.site.urls`` in your ``urls.py``::
 Run Demo Locally
 ----------------
 
-.. code-block:: bash
+::
 
     cd demo_app
     python manage.py migrate
